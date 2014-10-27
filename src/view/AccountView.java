@@ -13,7 +13,7 @@ public class AccountView {
         this.account = account;
     }
 
-    public String getName() {
+    String getName() {
         return this.account.getName();
     }
 

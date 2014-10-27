@@ -8,7 +8,7 @@ import java.util.Collection;
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 10/26/14.
  */
-public class AccountController {
+class AccountController {
 
     private final Database database;
 

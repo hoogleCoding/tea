@@ -5,29 +5,23 @@
 <?import javafx.scene.layout.*?>
 <VBox prefHeight="600" prefWidth="800" scaleShape="false" stylesheets="@./style/style.css"
       xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindow">
-    <children>
-        <SplitPane dividerPositions="0.3" VBox.vgrow="ALWAYS">
-            <items>
-                <VBox SplitPane.resizableWithParent="false">
-                    <children>
-                        <Button fx:id="addAccountButton" mnemonicParsing="false" onAction="#addAccount"
-                                styleClass="add_button" text="Add account" VBox.vgrow="NEVER">
-                            <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                            </padding>
-                            <VBox.margin>
-                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                            </VBox.margin>
-                        </Button>
-                        <ScrollPane pannable="true" VBox.vgrow="ALWAYS">
-                            <content>
-                                <ListView fx:id="accountList" onMouseClicked="#handleItemClicked"/>
-                            </content>
-                        </ScrollPane>
-                    </children>
-                </VBox>
-                <Pane id="main_panel" fx:id="mainPanel"/>
-            </items>
-        </SplitPane>
-    </children>
+    <SplitPane dividerPositions="0.3" VBox.vgrow="ALWAYS">
+        <VBox SplitPane.resizableWithParent="false">
+            <Button fx:id="addAccountButton" mnemonicParsing="false" onAction="#addAccount"
+                    styleClass="add_button" text="Add account" VBox.vgrow="NEVER">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+                <VBox.margin>
+                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                </VBox.margin>
+            </Button>
+            <ScrollPane pannable="true" VBox.vgrow="ALWAYS">
+                <content>
+                    <ListView fx:id="accountList" onMouseClicked="#handleItemClicked"/>
+                </content>
+            </ScrollPane>
+        </VBox>
+        <Pane id="main_panel" fx:id="mainPanel"/>
+    </SplitPane>
 </VBox>

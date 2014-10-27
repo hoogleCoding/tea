@@ -24,17 +24,16 @@ import java.util.ResourceBundle;
 public class MainWindow implements Initializable {
 
     private ObservableList<AccountView> accountViews;
-    private List<AccountView> accounts;
     @FXML
     private ListView<AccountView> accountList;
     @FXML
     private Pane mainPanel;
 
     public MainWindow() {
-        this.accounts = new LinkedList<>();
-        this.accounts.add(new AccountView(new Account("TestAccount1")));
-        this.accounts.add(new AccountView(new Account("TestAccount2")));
-        this.accountViews = FXCollections.observableList(this.accounts);
+        List<AccountView> accounts = new LinkedList<>();
+        accounts.add(new AccountView(new Account("TestAccount1")));
+        accounts.add(new AccountView(new Account("TestAccount2")));
+        this.accountViews = FXCollections.observableList(accounts);
     }
 
     @Override
