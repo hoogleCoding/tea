@@ -1,0 +1,24 @@
+root {
+    display: block;
+}
+
+.form_header {
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+}
+
+.add_button {
+    -fx-font-weight: bold;
+}
+
+.save_button {
+    -fx-end-margin: 4;
+}
+
+.cancel_button{
+    -fx-start-margin: 4;
+}
+
+#mainPanel {
+    -fx-start-margin: 4;
+}
