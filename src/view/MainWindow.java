@@ -1,11 +1,11 @@
 package view;
 
+import controller.AccountController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -13,31 +13,28 @@ import javafx.scene.layout.Pane;
 import model.Account;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 10/20/14.
  */
-public class MainWindow implements Initializable {
+public class MainWindow {
 
-    private ObservableList<AccountView> accountViews;
     @FXML
     private ListView<AccountView> accountList;
     @FXML
     private Pane mainPanel;
+    private AccountController accountController;
 
-    public MainWindow() {
-        List<AccountView> accounts = new LinkedList<>();
-        accounts.add(new AccountView(new Account("TestAccount1")));
-        accounts.add(new AccountView(new Account("TestAccount2")));
-        this.accountViews = FXCollections.observableList(accounts);
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void setAccountController(final AccountController controller) {
+        this.accountController = controller;
+        List<AccountView> accounts = this.accountController
+                .getAccounts()
+                .stream()
+                .map(AccountView::new)
+                .collect(Collectors.toList());
+        ObservableList<AccountView> accountViews = FXCollections.observableList(accounts);
         this.accountList.setItems(accountViews);
     }
 
