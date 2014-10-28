@@ -48,7 +48,7 @@ public class SQLite implements Database {
 
     private void setupDatabase() {
         try (final Statement statement = this.connection.createStatement()) {
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS account (id NUMERIC PRIMARY KEY NOT NULL, name TEXT NOT NULL, creation_date INT NOT NULL)");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS account (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, creation_date INT NOT NULL)");
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,18 +56,34 @@ public class SQLite implements Database {
     }
 
     @Override
-    public Account save(Account account) {
-        return null;
+    public Account save(final Account account) {
+        Account result = null;
+        try (final Statement statement = this.connection.createStatement()) {
+            final String query;
+            if (account.id.isPresent()) {
+                query = String.format("UPDATE account SET name='%s' WHERE id=%s", account.getName(), account.id.get());
+            } else {
+                query = String.format("INSERT INTO account (name, creation_date) VALUES ('%s', '0')", account.getName());
+            }
+            statement.executeUpdate(query);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+            result = new Account(resultSet.getLong(1), account.getName());
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return result;
     }
 
     @Override
     public Collection<Account> getAccounts() {
-        final Collection<Account> accounts = new LinkedList<>();
+        final Collection<Account> accounts = new LinkedList<Account>();
         try (final Statement statement = this.getConnection().createStatement()) {
             final ResultSet result = statement.executeQuery("SELECT * FROM account");
             while (result.next()) {
+                final Long id = result.getLong("id");
                 final String accountName = result.getString("name");
-                accounts.add(new Account(accountName));
+                accounts.add(new Account(id, accountName));
             }
         } catch (SQLException exception) {
             exception.printStackTrace();

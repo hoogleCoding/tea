@@ -29,13 +29,8 @@ public class MainWindow {
 
     public void setAccountController(final AccountController controller) {
         this.accountController = controller;
-        List<AccountView> accounts = this.accountController
-                .getAccounts()
-                .stream()
-                .map(AccountView::new)
-                .collect(Collectors.toList());
-        ObservableList<AccountView> accountViews = FXCollections.observableList(accounts);
-        this.accountList.setItems(accountViews);
+        this.accountController.addChangeListener(account -> this.updateAccountList());
+        this.updateAccountList();
     }
 
     @FXML
@@ -51,7 +46,7 @@ public class MainWindow {
 
     private void createOrEditAccount(final Account account) {
         final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AccountEdit.fxml"));
-        final AccountEdit controller = new AccountEdit();
+        final AccountEdit controller = new AccountEdit(this.accountController);
         controller.setAccount(account);
         fxmlLoader.setController(controller);
         try {
@@ -60,6 +55,16 @@ public class MainWindow {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    private void updateAccountList() {
+        final List<AccountView> accounts = this.accountController
+                .getAccounts()
+                .stream()
+                .map(AccountView::new)
+                .sorted((one, other) -> one.getName().compareTo(other.getName()))
+                .collect(Collectors.toList());
+        ObservableList<AccountView> accountViews = FXCollections.observableList(accounts);
+        this.accountList.setItems(accountViews);
     }
 }
