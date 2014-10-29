@@ -61,9 +61,9 @@ public class SQLite implements Database {
         try (final Statement statement = this.connection.createStatement()) {
             final String query;
             if (account.id.isPresent()) {
-                query = String.format("UPDATE account SET name='%s' WHERE id=%s", account.getName(), account.id.get());
+                query = String.format("UPDATE account SET name='%s', creation_date='%s' WHERE id=%s", account.getName(), account.getCreationTimestamp(), account.id.get());
             } else {
-                query = String.format("INSERT INTO account (name, creation_date) VALUES ('%s', '0')", account.getName());
+                query = String.format("INSERT INTO account (name, creation_date) VALUES ('%s', '%s')", account.getName(), account.getCreationTimestamp());
             }
             statement.executeUpdate(query);
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -77,13 +77,15 @@ public class SQLite implements Database {
 
     @Override
     public Collection<Account> getAccounts() {
-        final Collection<Account> accounts = new LinkedList<Account>();
+        final Collection<Account> accounts = new LinkedList<>();
         try (final Statement statement = this.getConnection().createStatement()) {
             final ResultSet result = statement.executeQuery("SELECT * FROM account");
             while (result.next()) {
                 final Long id = result.getLong("id");
                 final String accountName = result.getString("name");
-                accounts.add(new Account(id, accountName));
+                final Account account = new Account(id, accountName);
+                account.setCreationTimestamp(result.getLong("creation_date"));
+                accounts.add(account);
             }
         } catch (SQLException exception) {
             exception.printStackTrace();

@@ -3,10 +3,12 @@ package view;
 import controller.AccountController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import model.Account;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -20,6 +22,9 @@ public class AccountEdit implements Initializable {
 
     @FXML
     private TextField accountName;
+
+    @FXML
+    private DatePicker creationDate;
 
     public AccountEdit(final AccountController controller) {
         this.controller = controller;
@@ -35,14 +40,21 @@ public class AccountEdit implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (isNotEmpty(account.getName())) {
+        if (isNotEmpty(this.account.getName())) {
             this.accountName.setText(this.account.getName());
         }
+        if (this.account.getCreationTimestamp() == null) {
+            this.creationDate.setValue(LocalDate.now());
+        } else {
+            this.creationDate.setValue(LocalDate.ofEpochDay(this.account.getCreationTimestamp()));
+        }
+
     }
 
     public void save() {
         if (this.account != null && isNotEmpty(this.accountName.getText())) {
             this.account.setName(this.accountName.getText());
+            this.account.setCreationTimestamp(this.creationDate.getValue().toEpochDay());
             this.controller.save(account);
         }
     }

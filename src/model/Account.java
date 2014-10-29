@@ -8,6 +8,7 @@ import java.util.Optional;
 public class Account {
     public final Optional<Long> id;
     private String name;
+    private Long creationTimestamp;
 
     public Account(final Long id, final String name) {
         this.id = Optional.of(id);
@@ -24,5 +25,13 @@ public class Account {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public Long getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
+    public void setCreationTimestamp(final Long creationTimestamp) {
+        this.creationTimestamp = creationTimestamp;
     }
 }
