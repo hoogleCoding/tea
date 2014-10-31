@@ -30,7 +30,7 @@ public class ViewInitializer extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         final FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
-        Parent root = loader.load();
+        final Parent root = loader.load();
         MainWindow controller = loader.getController();
         controller.setAccountController(ViewInitializer.accountController);
         primaryStage.setTitle("Fugger 0.1");
