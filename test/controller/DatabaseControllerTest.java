@@ -9,11 +9,11 @@ import static org.mockito.Mockito.mock;
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 10/28/14.
  */
-public class AccountControllerTest {
+public class DatabaseControllerTest {
 
     @Test
     public void itShouldRunObserversWhenAnAccountIsSaved() {
-        final AccountController controller = new AccountController(mock(Database.class));
+        final DatabaseController controller = new DatabaseController(mock(Database.class));
         final boolean[] isCalled = {false};
         controller.addChangeListener(x -> isCalled[0] = true);
         controller.save(mock(Account.class));

@@ -1,6 +1,7 @@
 package controller;
 
 import model.Account;
+import model.Transaction;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -10,13 +11,13 @@ import java.util.function.Consumer;
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 10/26/14.
  */
-public class AccountController {
+public class DatabaseController {
 
     private final Database database;
     private final Collection<Consumer<Account>> listeners;
 
     @Inject
-    public AccountController(final Database database) {
+    public DatabaseController(final Database database) {
         this.database = database;
         this.listeners = new LinkedList<>();
     }
@@ -33,5 +34,9 @@ public class AccountController {
 
     public void addChangeListener(final Consumer<Account> listener) {
         this.listeners.add(listener);
+    }
+
+    public Collection<Transaction> getTransactions() {
+        return this.database.getTransactions();
     }
 }

@@ -1,6 +1,6 @@
-package view;
+package view.account;
 
-import controller.AccountController;
+import controller.DatabaseController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,11 +25,11 @@ public class AccountView {
     private ListView<AccountListView> accountList;
     @FXML
     private Pane mainPanel;
-    private AccountController accountController;
+    private DatabaseController databaseController;
 
-    public void setAccountController(final AccountController controller) {
-        this.accountController = controller;
-        this.accountController.addChangeListener(account -> this.updateAccountList());
+    public void setDatabaseController(final DatabaseController controller) {
+        this.databaseController = controller;
+        this.databaseController.addChangeListener(account -> this.updateAccountList());
         this.updateAccountList();
     }
 
@@ -46,7 +46,7 @@ public class AccountView {
 
     private void createOrEditAccount(final Account account) {
         final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AccountEdit.fxml"));
-        final AccountEdit controller = new AccountEdit(this.accountController);
+        final AccountEdit controller = new AccountEdit(this.databaseController);
         controller.setAccount(account);
         fxmlLoader.setController(controller);
         try {
@@ -58,7 +58,7 @@ public class AccountView {
     }
 
     private void updateAccountList() {
-        final List<AccountListView> accounts = this.accountController
+        final List<AccountListView> accounts = this.databaseController
                 .getAccounts()
                 .stream()
                 .map(AccountListView::new)

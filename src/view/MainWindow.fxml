@@ -34,7 +34,7 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <Label fx:id="applicaiton_status" text="Fugger 0.1" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2"
+        <Label fx:id="application_status" text="Fugger 0.1" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2"
                GridPane.vgrow="NEVER">
             <GridPane.margin>
                 <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
@@ -43,7 +43,7 @@
         <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
             <tabs>
                 <Tab closable="false" text="Accounts" fx:id="accountsTab"/>
-                <Tab closable="false" text="Transactions"/>
+                <Tab closable="false" text="Transactions" fx:id="transactionTab"/>
             </tabs>
         </TabPane>
     </children>

@@ -1,4 +1,4 @@
-package view;
+package view.account;
 
 import model.Account;
 

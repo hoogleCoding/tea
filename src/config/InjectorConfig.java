@@ -1,7 +1,7 @@
 package config;
 
 import com.google.inject.AbstractModule;
-import controller.AccountController;
+import controller.DatabaseController;
 import controller.Database;
 import controller.SQLite;
 import view.ViewInitializer;
@@ -13,7 +13,7 @@ public class InjectorConfig extends AbstractModule {
     @Override
     protected void configure() {
         bind(Database.class).to(SQLite.class).asEagerSingleton();
-        bind(AccountController.class);
+        bind(DatabaseController.class);
         bind(ViewInitializer.class);
     }
 }

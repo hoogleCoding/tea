@@ -1,6 +1,6 @@
 package view;
 
-import controller.AccountController;
+import controller.DatabaseController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,12 +14,12 @@ import javax.inject.Inject;
  */
 public class ViewInitializer extends Application {
 
-    private static AccountController accountController;
+    private static DatabaseController databaseController;
 
     @Inject
-    public void setAccountController(final AccountController controller) {
-        if (ViewInitializer.accountController == null) {
-            ViewInitializer.accountController = controller;
+    public void setAccountController(final DatabaseController controller) {
+        if (ViewInitializer.databaseController == null) {
+            ViewInitializer.databaseController = controller;
         }
     }
 
@@ -32,7 +32,7 @@ public class ViewInitializer extends Application {
         final FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
         final Parent root = loader.load();
         MainWindow controller = loader.getController();
-        controller.setAccountController(ViewInitializer.accountController);
+        controller.setAccountController(ViewInitializer.databaseController);
         primaryStage.setTitle("Fugger 0.1");
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();

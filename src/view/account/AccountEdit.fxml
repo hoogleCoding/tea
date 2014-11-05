@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+          stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <columnConstraints>
+        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="100.0"/>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+    </rowConstraints>
+    <children>
+        <Label styleClass="form_header" text="Account information" GridPane.columnSpan="2"/>
+        <Label text="Name" GridPane.rowIndex="1">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </GridPane.margin>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </Label>
+        <Label text="Creation date" GridPane.hgrow="NEVER" GridPane.rowIndex="2">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </GridPane.margin>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </Label>
+        <TextField fx:id="accountName" promptText="Account name" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+                   GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </GridPane.margin>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </TextField>
+        <DatePicker fx:id="creationDate" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <HBox GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3"
+              GridPane.vgrow="NEVER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#save" styleClass="save_button" text="Save"
+                        HBox.hgrow="NEVER">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                    <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" styleClass="cancel_button" text="Cancel" HBox.hgrow="NEVER">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                    <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+    </children>
+</GridPane>

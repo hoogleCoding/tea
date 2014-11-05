@@ -1,6 +1,6 @@
-package view;
+package view.account;
 
-import controller.AccountController;
+import controller.DatabaseController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
@@ -17,7 +17,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  * Created by Florian Hug <florian.hug@gmail.com> on 10/24/14.
  */
 public class AccountEdit implements Initializable {
-    private final AccountController controller;
+    private final DatabaseController controller;
     private Account account = null;
 
     @FXML
@@ -26,7 +26,7 @@ public class AccountEdit implements Initializable {
     @FXML
     private DatePicker creationDate;
 
-    public AccountEdit(final AccountController controller) {
+    public AccountEdit(final DatabaseController controller) {
         this.controller = controller;
     }
 

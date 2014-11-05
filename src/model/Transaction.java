@@ -33,36 +33,20 @@ public class Transaction {
         this.id = Optional.empty();
     }
 
-    public MoneyTransaction of(final MonetaryAmount amount) {
-        return new MoneyTransaction(amount);
+    @Override
+    public String toString() {
+        return this.name;
     }
 
-    class MoneyTransaction {
-        private final MonetaryAmount amount;
-
-        public MoneyTransaction(final MonetaryAmount amount) {
-            this.amount = amount;
-        }
-
-        public SourcedTransaction from(final MoneyTransaction moneyTransaction, final Account source) {
-            return new SourcedTransaction(moneyTransaction.amount, source);
-        }
-
+    public MonetaryAmount getAmount() {
+        return amount;
     }
 
-    class SourcedTransaction {
-
-        private final MonetaryAmount amount;
-        private final Account source;
-
-        public SourcedTransaction(final MonetaryAmount amount, final Account source) {
-            this.amount = amount;
-            this.source = source;
-        }
-
-        public Transaction to(final Account account) {
-            return new Transaction(this.amount, this.source, account);
-        }
+    public Account getSource() {
+        return source;
     }
 
+    public Account getSink() {
+        return sink;
+    }
 }

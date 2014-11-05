@@ -1,8 +1,10 @@
 package controller;
 
 import model.Account;
+import model.Transaction;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 10/26/14.
@@ -23,4 +25,19 @@ public interface Database {
      * @return A collection of all accounts found in the database.
      */
     Collection<Account> getAccounts();
+
+    /**
+     * Gets an account from the database based on its id.
+     *
+     * @param id The id of the account.
+     * @return The account if found.
+     */
+    Optional<Account> getAccount(final Long id);
+
+    /**
+     * Returns all transactions from the database;
+     *
+     * @return A collection of all transactions found in the database;
+     */
+    Collection<Transaction> getTransactions();
 }
