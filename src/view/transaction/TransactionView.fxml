@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="view.transaction.TransactionView" stylesheets="@../style/style.css">
+<VBox prefHeight="400.0" prefWidth="600.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.transaction.TransactionView">
+    <Accordion>
+        <panes>
+            <TitledPane animated="false" expanded="false" text="Edit">
+                <Pane fx:id="editPane" prefHeight="200.0" prefWidth="200.0"/>
+            </TitledPane>
+        </panes>
+    </Accordion>
     <ListView fx:id="transactionList" editable="true" VBox.vgrow="ALWAYS"/>
 </VBox>

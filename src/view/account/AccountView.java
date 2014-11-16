@@ -1,6 +1,7 @@
 package view.account;
 
 import controller.DatabaseController;
+import controller.DatabaseControllerReceiver;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 10/20/14.
  */
-public class AccountView {
+public class AccountView implements DatabaseControllerReceiver {
 
     @FXML
     private ListView<AccountListView> accountList;
@@ -27,6 +28,7 @@ public class AccountView {
     private Pane mainPanel;
     private DatabaseController databaseController;
 
+    @Override
     public void setDatabaseController(final DatabaseController controller) {
         this.databaseController = controller;
         this.databaseController.addChangeListener(account -> this.updateAccountList());

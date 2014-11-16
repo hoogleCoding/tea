@@ -14,37 +14,27 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
         <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
     </rowConstraints>
-    <children>
-        <MenuBar disable="true">
-            <menus>
-                <Menu mnemonicParsing="false" text="File">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Close"/>
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Delete"/>
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About"/>
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-        <Label fx:id="application_status" text="Fugger 0.1" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2"
-               GridPane.vgrow="NEVER">
-            <GridPane.margin>
-                <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
-            </GridPane.margin>
-        </Label>
-        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
-            <tabs>
-                <Tab closable="false" text="Accounts" fx:id="accountsTab"/>
-                <Tab closable="false" text="Transactions" fx:id="transactionTab"/>
-            </tabs>
-        </TabPane>
-    </children>
+    <MenuBar disable="true">
+        <Menu mnemonicParsing="false" text="File">
+            <MenuItem mnemonicParsing="false" text="Close"/>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+            <MenuItem mnemonicParsing="false" text="Delete"/>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+            <MenuItem mnemonicParsing="false" text="About"/>
+        </Menu>
+    </MenuBar>
+    <Label fx:id="application_status" text="Fugger 0.1" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2"
+           GridPane.vgrow="NEVER">
+        <GridPane.margin>
+            <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+        </GridPane.margin>
+    </Label>
+    <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
+        <tabs>
+            <Tab closable="false" text="Accounts" fx:id="accountsTab"/>
+            <Tab closable="false" text="Transactions" fx:id="transactionTab"/>
+        </tabs>
+    </TabPane>
 </GridPane>

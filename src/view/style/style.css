@@ -15,8 +15,19 @@ root {
     -fx-end-margin: 4;
 }
 
-.cancel_button{
+.cancel_button {
     -fx-start-margin: 4;
+}
+
+.error {
+    -fx-border-color: red;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+    -fx-border-radius: 2;
+}
+
+.errorMessage {
+    -fx-background-color: red;
 }
 
 #mainPanel {

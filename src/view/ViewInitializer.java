@@ -17,7 +17,7 @@ public class ViewInitializer extends Application {
     private static DatabaseController databaseController;
 
     @Inject
-    public void setAccountController(final DatabaseController controller) {
+    public void setDatabaseController(final DatabaseController controller) {
         if (ViewInitializer.databaseController == null) {
             ViewInitializer.databaseController = controller;
         }

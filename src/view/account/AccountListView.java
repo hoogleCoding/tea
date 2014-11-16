@@ -13,7 +13,7 @@ public class AccountListView {
         this.account = account;
     }
 
-    String getName() {
+    public String getName() {
         return this.account.getName();
     }
 
