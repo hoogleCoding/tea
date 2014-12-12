@@ -1,6 +1,3 @@
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import config.InjectorConfig;
 import view.ViewInitializer;
 
 /**
@@ -9,8 +6,7 @@ import view.ViewInitializer;
 class Main {
 
     public static void main(String... args) {
-        Injector injector = Guice.createInjector(new InjectorConfig());
-        ViewInitializer initializer = injector.getInstance(ViewInitializer.class);
+        ViewInitializer initializer = new ViewInitializer();
         initializer.run(args);
     }
 }

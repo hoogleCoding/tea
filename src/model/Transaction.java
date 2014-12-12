@@ -1,6 +1,7 @@
 package model;
 
 import javax.money.MonetaryAmount;
+import java.time.LocalDate;
 import java.util.Optional;
 
 /**
@@ -8,11 +9,12 @@ import java.util.Optional;
  */
 public class Transaction {
 
-    public final Optional<Long> id;
-    public String name;
+    private final Optional<Long> id;
+    private String name;
     private Account source;
     private Account sink;
     private MonetaryAmount amount;
+    private LocalDate date;
 
     public Transaction(final Long id, final String name, final Account source, final Account sink, final MonetaryAmount amount) {
         this.id = Optional.ofNullable(id);
@@ -38,6 +40,10 @@ public class Transaction {
         return this.name;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     public MonetaryAmount getAmount() {
         return amount;
     }
@@ -48,5 +54,9 @@ public class Transaction {
 
     public Account getSink() {
         return sink;
+    }
+
+    public LocalDate getDate() {
+        return this.date;
     }
 }

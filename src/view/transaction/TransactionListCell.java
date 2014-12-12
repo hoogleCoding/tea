@@ -41,7 +41,7 @@ public class TransactionListCell extends ListCell<Transaction> {
             setText(null);
             setGraphic(null);
         } else {
-            this.transactionName.setText(item.name);
+            this.transactionName.setText(item.getName());
             this.amount.setText(item.getAmount().toString());
             this.source.setText(item.getSource().getName());
             this.sink.setText(item.getSink().getName());

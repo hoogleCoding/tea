@@ -1,5 +1,6 @@
 package view.account;
 
+import com.cathive.fx.guice.FXMLController;
 import controller.DatabaseController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +17,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 10/24/14.
  */
+@FXMLController
 public class AccountEdit implements Initializable {
     private final DatabaseController controller;
     private Account account = null;

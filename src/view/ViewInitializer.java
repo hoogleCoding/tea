@@ -1,27 +1,23 @@
 package view;
 
-import controller.DatabaseController;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
+import com.cathive.fx.guice.GuiceApplication;
+import com.cathive.fx.guice.GuiceFXMLLoader;
+import com.google.inject.Module;
+import config.InjectorConfig;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 10/26/14.
  */
-public class ViewInitializer extends Application {
-
-    private static DatabaseController databaseController;
+public class ViewInitializer extends GuiceApplication {
 
     @Inject
-    public void setDatabaseController(final DatabaseController controller) {
-        if (ViewInitializer.databaseController == null) {
-            ViewInitializer.databaseController = controller;
-        }
-    }
+    private GuiceFXMLLoader fxmlLoader;
 
     public void run(String... args) {
         launch(args);
@@ -29,12 +25,14 @@ public class ViewInitializer extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
-        final Parent root = loader.load();
-        MainWindow controller = loader.getController();
-        controller.setAccountController(ViewInitializer.databaseController);
+        final Parent root = fxmlLoader.load(getClass().getResource("MainWindow.fxml")).getRoot();
         primaryStage.setTitle("Fugger 0.1");
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
+    }
+
+    @Override
+    public void init(List<Module> modules) throws Exception {
+        modules.add(new InjectorConfig());
     }
 }

@@ -1,60 +1,76 @@
 package view.transaction;
 
+import com.cathive.fx.guice.FXMLController;
 import controller.DatabaseController;
-import controller.DatabaseControllerReceiver;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import model.Transaction;
 import view.account.AccountListView;
 
+import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 11/12/14.
  */
-public class TransactionEdit implements DatabaseControllerReceiver {
+@FXMLController
+public class TransactionEdit implements Initializable {
 
     @FXML
-    public ComboBox<String> amountCurrency;
+    ComboBox<String> amountCurrency;
     @FXML
-    public TextField transactionName;
+    TextField transactionName;
     @FXML
-    public TextField amountValue;
+    DatePicker date;
     @FXML
-    public Label nameError;
-    @FXML
-    public Label amountError;
-    @FXML
-    public Label sourceError;
-    @FXML
-    public Label sinkError;
-    @FXML
-    public Tooltip nameErrorTooltip;
-    @FXML
-    public Tooltip amountErrorTooltip;
-    @FXML
-    public Tooltip sourceErrorTooltip;
-    @FXML
-    public Tooltip sinkErrorTooltip;
+    TextField amountValue;
     @FXML
     ComboBox<AccountListView> source;
     @FXML
     ComboBox<AccountListView> sink;
+    @FXML
+    Label nameError;
+    @FXML
+    Label amountError;
+    @FXML
+    Label sourceError;
+    @FXML
+    Label sinkError;
+    @FXML
+    Label dateError;
+    @FXML
+    Tooltip nameErrorTooltip;
+    @FXML
+    Tooltip amountErrorTooltip;
+    @FXML
+    Tooltip sourceErrorTooltip;
+    @FXML
+    Tooltip sinkErrorTooltip;
+    @FXML
+    Tooltip dateErrorTooltip;
+    @Inject
     private DatabaseController controller;
+    private Transaction transaction;
 
     @Override
-    public void setDatabaseController(final DatabaseController controller) {
-        if (controller != null) {
-            this.controller = controller;
-            this.populate();
-        }
+    public void initialize(URL location, ResourceBundle resources) {
+        this.populate();
+    }
+
+    public void setTransaction(final Transaction transaction) {
+        this.transaction = transaction;
+        this.transactionName.setText(this.transaction.getName());
+        this.date.setValue(this.transaction.getDate());
+        this.amountCurrency.setValue(this.transaction.getAmount().getCurrency().getCurrencyCode());
+        this.amountValue.setText(this.transaction.getAmount().getNumber().toString());
     }
 
     public void populate() {
@@ -80,12 +96,18 @@ public class TransactionEdit implements DatabaseControllerReceiver {
     private boolean validate() {
         //TODO: Write tests for the validation.
         this.validateTransactionName();
+        this.validateDate();
         this.validateAmount();
         this.validateSource();
         this.validateSink();
         return false;
     }
 
+    /**
+     * Checks whether the transaction name field has a value.
+     *
+     * @return True if the name is set, false otherwise.
+     */
     private boolean validateTransactionName() {
         final List<String> messages = new LinkedList<>();
         if (this.transactionName.getText().isEmpty()) {
@@ -108,6 +130,31 @@ public class TransactionEdit implements DatabaseControllerReceiver {
     }
 
     /**
+     * Checks whether the transaction has a date set.
+     *
+     * @return True if the date is set, false otherwise.
+     */
+    private boolean validateDate() {
+        final List<String> messages = new LinkedList<>();
+        if (this.date.getValue() == null) {
+            messages.add("The transaction needs a date");
+        }
+        if (messages.isEmpty()) {
+            this.dateError.visibleProperty().setValue(false);
+            this.nameErrorTooltip.setText("");
+            this.date.getStyleClass().remove("error");
+        } else {
+            this.dateError.visibleProperty().setValue(true);
+            this.date.getStyleClass().add("error");
+            this.dateErrorTooltip.setText(
+                    messages
+                            .stream()
+                            .reduce("", (a, b) -> String.format("%s\n%s", a, b)).replaceFirst("\n", ""));
+        }
+        return messages.isEmpty();
+    }
+
+    /**
      * Validates the amount information and sets error messages.
      *
      * @return true if the information is valid; false otherwise.
@@ -115,7 +162,7 @@ public class TransactionEdit implements DatabaseControllerReceiver {
     private boolean validateAmount() {
         final List<String> messages = new LinkedList<>();
         if (this.amountValue.getText().isEmpty()) {
-            messages.add("The transaction needs an amount.");
+            messages.add("The transaction needs an amount");
         } else {
             final String amount = this.amountValue.getText();
             try {
@@ -125,7 +172,7 @@ public class TransactionEdit implements DatabaseControllerReceiver {
             }
         }
         if (this.amountCurrency.getSelectionModel().getSelectedItem() == null) {
-            messages.add("The transaction needs a currency.");
+            messages.add("The transaction needs a currency");
         }
         if (messages.isEmpty()) {
             this.amountValue.getStyleClass().remove("error");
@@ -216,4 +263,5 @@ public class TransactionEdit implements DatabaseControllerReceiver {
         currencies.add("USD");
         return currencies;
     }
+
 }
