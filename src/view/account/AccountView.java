@@ -1,7 +1,7 @@
 package view.account;
 
 import com.cathive.fx.guice.FXMLController;
-import controller.DatabaseController;
+import controller.database.DatabaseController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

@@ -1,12 +1,15 @@
 package view;
 
-import com.cathive.fx.guice.FXMLController;
 import com.cathive.fx.guice.GuiceFXMLLoader;
+import controller.layout.OverlayProvider;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.FlowPane;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,8 +17,10 @@ import java.util.ResourceBundle;
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 10/31/14.
  */
-@FXMLController
-public class MainWindow implements Initializable {
+@Singleton
+public class MainWindow implements Initializable, OverlayProvider {
+    @FXML
+    private FlowPane overlayPane;
     @Inject
     private GuiceFXMLLoader fxmlLoader;
     @FXML
@@ -40,5 +45,21 @@ public class MainWindow implements Initializable {
             //TODO: Log something
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean show(Node node) {
+        if (!this.overlayPane.getChildren().isEmpty()) {
+            return false;
+        }
+        this.overlayPane.getChildren().add(node);
+        this.overlayPane.setVisible(true);
+        return true;
+    }
+
+    @Override
+    public void dispose() {
+        this.overlayPane.getChildren().clear();
+        this.overlayPane.setVisible(false);
     }
 }

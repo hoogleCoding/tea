@@ -41,10 +41,10 @@ public class TransactionListCell extends ListCell<Transaction> {
             setText(null);
             setGraphic(null);
         } else {
-            this.transactionName.setText(item.getName());
-            this.amount.setText(item.getAmount().toString());
-            this.source.setText(item.getSource().getName());
-            this.sink.setText(item.getSink().getName());
+            item.getName().ifPresent(this.transactionName::setText);
+            item.getAmount().ifPresent(amount -> this.amount.setText(amount.toString()));
+            item.getSource().ifPresent(value -> this.source.setText(value.getName()));
+            item.getSink().ifPresent(value -> this.sink.setText(value.getName()));
             this.setGraphic(this.gridPane);
         }
     }

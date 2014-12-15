@@ -1,40 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-          prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
-          fx:controller="view.MainWindow">
-    <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-        <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
-    </rowConstraints>
-    <MenuBar disable="true">
-        <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" text="Close"/>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-            <MenuItem mnemonicParsing="false" text="Delete"/>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-            <MenuItem mnemonicParsing="false" text="About"/>
-        </Menu>
-    </MenuBar>
-    <Label fx:id="application_status" text="Fugger 0.1" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2"
-           GridPane.vgrow="NEVER">
-        <GridPane.margin>
-            <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
-        </GridPane.margin>
-    </Label>
-    <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
-        <tabs>
-            <Tab closable="false" text="Accounts" fx:id="accountsTab"/>
-            <Tab closable="false" text="Transactions" fx:id="transactionTab"/>
-        </tabs>
-    </TabPane>
-</GridPane>
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindow"
+           stylesheets="@style/style.css">
+    <children>
+        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                  prefHeight="600.0" prefWidth="800.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+            </rowConstraints>
+            <children>
+                <MenuBar disable="true">
+                    <menus>
+                        <Menu mnemonicParsing="false" text="File">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Close"/>
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Edit">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Delete"/>
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Help">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="About"/>
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+                <Label fx:id="application_status" text="Fugger 0.1" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2"
+                       GridPane.vgrow="NEVER">
+                    <GridPane.margin>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+                    </GridPane.margin>
+                </Label>
+                <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
+                    <tabs>
+                        <Tab fx:id="accountsTab" closable="false" text="Accounts"/>
+                        <Tab fx:id="transactionTab" closable="false" text="Transactions"/>
+                    </tabs>
+                </TabPane>
+            </children>
+        </GridPane>
+        <FlowPane id="overlay_pane" fx:id="overlayPane" alignment="CENTER" prefHeight="200.0" prefWidth="200.0"
+                  visible="false"/>
+    </children>
+</StackPane>

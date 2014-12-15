@@ -1,4 +1,4 @@
-package controller;
+package controller.database;
 
 import model.Account;
 import model.Transaction;
@@ -40,4 +40,20 @@ public interface Database {
      * @return A collection of all transactions found in the database;
      */
     Collection<Transaction> getTransactions();
+
+    /**
+     * Creates a {@link model.Transaction} in the database.
+     *
+     * @param transaction The {@link model.Transaction} to create.
+     * @return The saved transaction. With its ids set.
+     */
+    Transaction create(final Transaction transaction);
+
+    /**
+     * Updates a database record with the information from the {@link model.Transaction}.
+     *
+     * @param transaction The transaction to update in the database.
+     * @return The updated transaction.
+     */
+    Transaction update(final Transaction transaction);
 }

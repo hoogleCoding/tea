@@ -33,3 +33,11 @@ root {
 #mainPanel {
     -fx-start-margin: 4;
 }
+
+#overlay_pane {
+    -fx-background-color: rgba(64, 64, 64, 0.85);
+}
+
+.overlayed{
+    -fx-background-color: #FFFFFF;
+}

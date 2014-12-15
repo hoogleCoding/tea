@@ -1,4 +1,4 @@
-package controller;
+package controller.database;
 
 import model.Account;
 import model.Transaction;
@@ -38,5 +38,19 @@ public class DatabaseController {
 
     public Collection<Transaction> getTransactions() {
         return this.database.getTransactions();
+    }
+
+    /**
+     * Saves a {@link model.Transaction} in the database if the {@link model.Transaction} does not exist it will be
+     * created otherwise the existing data will be overwritten.
+     *
+     * @param transaction The transaction to save
+     * @return The saved transaction with updated information from the database.
+     */
+    public Transaction save(final Transaction transaction) {
+        return transaction
+                .getId()
+                .map(i -> this.database.update(transaction))
+                .orElseGet(() -> this.database.create(transaction));
     }
 }

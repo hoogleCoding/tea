@@ -1,7 +1,6 @@
 package model;
 
 import javax.money.MonetaryAmount;
-import java.time.LocalDate;
 import java.util.Optional;
 
 /**
@@ -9,15 +8,19 @@ import java.util.Optional;
  */
 public class Transaction {
 
-    private final Optional<Long> id;
+    private final Long id;
     private String name;
     private Account source;
     private Account sink;
     private MonetaryAmount amount;
-    private LocalDate date;
+    private Long date;
+
+    public Transaction(final Long id, final Transaction transaction) {
+        this(id, transaction.name, transaction.source, transaction.sink, transaction.amount);
+    }
 
     public Transaction(final Long id, final String name, final Account source, final Account sink, final MonetaryAmount amount) {
-        this.id = Optional.ofNullable(id);
+        this.id = id;
         this.name = name;
         this.source = source;
         this.sink = sink;
@@ -32,7 +35,7 @@ public class Transaction {
     }
 
     public Transaction() {
-        this.id = Optional.empty();
+        this.id = null;
     }
 
     @Override
@@ -40,23 +43,47 @@ public class Transaction {
         return this.name;
     }
 
-    public String getName() {
-        return this.name;
+    public Optional<String> getName() {
+        return Optional.ofNullable(this.name);
     }
 
-    public MonetaryAmount getAmount() {
-        return amount;
+    public void setName(final String name) {
+        this.name = name;
     }
 
-    public Account getSource() {
-        return source;
+    public Optional<MonetaryAmount> getAmount() {
+        return Optional.ofNullable(amount);
     }
 
-    public Account getSink() {
-        return sink;
+    public void setAmount(final MonetaryAmount amount) {
+        this.amount = amount;
     }
 
-    public LocalDate getDate() {
-        return this.date;
+    public Optional<Account> getSource() {
+        return Optional.ofNullable(source);
+    }
+
+    public void setSource(final Account source) {
+        this.source = source;
+    }
+
+    public Optional<Account> getSink() {
+        return Optional.ofNullable(sink);
+    }
+
+    public void setSink(final Account sink) {
+        this.sink = sink;
+    }
+
+    public Optional<Long> getDate() {
+        return Optional.ofNullable(this.date);
+    }
+
+    public void setDate(final long date) {
+        this.date = date;
+    }
+
+    public Optional<Long> getId() {
+        return Optional.ofNullable(id);
     }
 }

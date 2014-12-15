@@ -1,18 +1,22 @@
 package view.transaction;
 
 import com.cathive.fx.guice.FXMLController;
-import controller.DatabaseController;
+import controller.database.DatabaseController;
+import controller.layout.OverlayProvider;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import model.Transaction;
+import org.javamoney.moneta.RoundedMoney;
 import view.account.AccountListView;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -24,40 +28,44 @@ import java.util.stream.Collectors;
 @FXMLController
 public class TransactionEdit implements Initializable {
 
+    //<editor-fold desc="FXML fields">
     @FXML
-    ComboBox<String> amountCurrency;
+    private ComboBox<String> amountCurrency;
     @FXML
-    TextField transactionName;
+    private TextField transactionName;
     @FXML
-    DatePicker date;
+    private DatePicker date;
     @FXML
-    TextField amountValue;
+    private TextField amountValue;
     @FXML
-    ComboBox<AccountListView> source;
+    private ComboBox<AccountListView> source;
     @FXML
-    ComboBox<AccountListView> sink;
+    private ComboBox<AccountListView> sink;
     @FXML
-    Label nameError;
+    private Label nameError;
     @FXML
-    Label amountError;
+    private Label amountError;
     @FXML
-    Label sourceError;
+    private Label sourceError;
     @FXML
-    Label sinkError;
+    private Label sinkError;
     @FXML
-    Label dateError;
+    private Label dateError;
     @FXML
-    Tooltip nameErrorTooltip;
+    private Tooltip nameErrorTooltip;
     @FXML
-    Tooltip amountErrorTooltip;
+    private Tooltip amountErrorTooltip;
     @FXML
-    Tooltip sourceErrorTooltip;
+    private Tooltip sourceErrorTooltip;
     @FXML
-    Tooltip sinkErrorTooltip;
+    private Tooltip sinkErrorTooltip;
     @FXML
-    Tooltip dateErrorTooltip;
+    private Tooltip dateErrorTooltip;
+    //</editor-fold>
     @Inject
     private DatabaseController controller;
+    @Inject
+    private OverlayProvider overlayProvider;
     private Transaction transaction;
 
     @Override
@@ -67,10 +75,12 @@ public class TransactionEdit implements Initializable {
 
     public void setTransaction(final Transaction transaction) {
         this.transaction = transaction;
-        this.transactionName.setText(this.transaction.getName());
-        this.date.setValue(this.transaction.getDate());
-        this.amountCurrency.setValue(this.transaction.getAmount().getCurrency().getCurrencyCode());
-        this.amountValue.setText(this.transaction.getAmount().getNumber().toString());
+        this.transaction.getName().ifPresent(this.transactionName::setText);
+        this.transaction.getDate().ifPresent(timestamp -> this.date.setValue(LocalDate.ofEpochDay(timestamp)));
+        this.transaction.getAmount().ifPresent(amount -> {
+            this.amountCurrency.setValue(amount.getCurrency().getCurrencyCode());
+            this.amountValue.setText(amount.getNumber().toString());
+        });
     }
 
     public void populate() {
@@ -90,17 +100,25 @@ public class TransactionEdit implements Initializable {
 
     @FXML
     public void saveTransaction() {
-        this.validate();
+        if (this.validate()) {
+            this.transaction.setName(this.transactionName.getText());
+            this.transaction.setSource(this.source.getSelectionModel().getSelectedItem().account);
+            this.transaction.setSink(this.sink.getSelectionModel().getSelectedItem().account);
+            final Number amount = new BigDecimal(this.amountValue.getText());
+            this.transaction.setAmount(RoundedMoney.of(amount, this.amountCurrency.getValue()));
+            this.transaction.setDate(this.date.getValue().toEpochDay());
+            this.controller.save(this.transaction);
+            this.overlayProvider.dispose();
+        }
     }
 
     private boolean validate() {
         //TODO: Write tests for the validation.
-        this.validateTransactionName();
-        this.validateDate();
-        this.validateAmount();
-        this.validateSource();
-        this.validateSink();
-        return false;
+        return this.validateTransactionName() &&
+                this.validateDate() &&
+                this.validateAmount() &&
+                this.validateSource() &&
+                this.validateSink();
     }
 
     /**
@@ -264,4 +282,7 @@ public class TransactionEdit implements Initializable {
         return currencies;
     }
 
+    public void cancel(final ActionEvent actionEvent) {
+        this.overlayProvider.dispose();
+    }
 }
