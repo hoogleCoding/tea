@@ -17,7 +17,7 @@ public class DatabaseControllerTest {
     public void itShouldRunObserversWhenAnAccountIsSaved() {
         final DatabaseController controller = new DatabaseController(mock(Database.class));
         final boolean[] isCalled = {false};
-        controller.addChangeListener(x -> isCalled[0] = true);
+        controller.addAccountChangeListener(x -> isCalled[0] = true);
         controller.save(mock(Account.class));
         assertTrue("The account controller should inform its listeners of a save.", isCalled[0]);
     }

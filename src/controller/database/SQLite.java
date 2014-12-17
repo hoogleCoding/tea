@@ -130,8 +130,9 @@ public class SQLite implements Database {
                 final Optional<Account> source = this.getAccount(result.getLong("source"));
                 final Optional<Account> sink = this.getAccount(result.getLong("sink"));
                 final MonetaryAmount money_amount = RoundedMoney.parse(result.getString("monetary_amount"));
+                final Long date = result.getLong("date");
                 if (source.isPresent() && sink.isPresent()) {
-                    final Transaction transaction = new Transaction(id, name, source.get(), sink.get(), money_amount);
+                    final Transaction transaction = new Transaction(id, name, date, source.get(), sink.get(), money_amount);
                     transactions.add(transaction);
                 }
             }

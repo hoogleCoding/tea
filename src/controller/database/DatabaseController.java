@@ -4,6 +4,7 @@ import model.Account;
 import model.Transaction;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.function.Consumer;
@@ -11,15 +12,18 @@ import java.util.function.Consumer;
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 10/26/14.
  */
+@Singleton
 public class DatabaseController {
 
     private final Database database;
-    private final Collection<Consumer<Account>> listeners;
+    private final Collection<Consumer<Account>> accountListeners;
+    private final Collection<Consumer<Transaction>> transactionListeners;
 
     @Inject
     public DatabaseController(final Database database) {
         this.database = database;
-        this.listeners = new LinkedList<>();
+        this.accountListeners = new LinkedList<>();
+        this.transactionListeners = new LinkedList<>();
     }
 
     public Collection<Account> getAccounts() {
@@ -28,12 +32,16 @@ public class DatabaseController {
 
     public Account save(final Account account) {
         final Account saved = this.database.save(account);
-        this.listeners.forEach(listener -> listener.accept(saved));
+        this.accountListeners.forEach(listener -> listener.accept(saved));
         return saved;
     }
 
-    public void addChangeListener(final Consumer<Account> listener) {
-        this.listeners.add(listener);
+    public void addAccountChangeListener(final Consumer<Account> listener) {
+        this.accountListeners.add(listener);
+    }
+
+    public void addTransactionChangeListener(final Consumer<Transaction> consumer) {
+        this.transactionListeners.add(consumer);
     }
 
     public Collection<Transaction> getTransactions() {
@@ -48,9 +56,11 @@ public class DatabaseController {
      * @return The saved transaction with updated information from the database.
      */
     public Transaction save(final Transaction transaction) {
-        return transaction
+        final Transaction result = transaction
                 .getId()
                 .map(i -> this.database.update(transaction))
                 .orElseGet(() -> this.database.create(transaction));
+        this.transactionListeners.forEach(listener -> listener.accept(result));
+        return result;
     }
 }

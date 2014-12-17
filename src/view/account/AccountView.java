@@ -36,7 +36,7 @@ public class AccountView implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.databaseController.addChangeListener(account -> this.updateAccountList());
+        this.databaseController.addAccountChangeListener(account -> this.updateAccountList());
         this.updateAccountList();
     }
 

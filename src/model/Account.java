@@ -34,4 +34,26 @@ public class Account {
     public void setCreationTimestamp(final Long creationTimestamp) {
         this.creationTimestamp = creationTimestamp;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Account account = (Account) o;
+
+        if (creationTimestamp != null ? !creationTimestamp.equals(account.creationTimestamp) : account.creationTimestamp != null)
+            return false;
+        if (!id.equals(account.id)) return false;
+        return name.equals(account.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (creationTimestamp != null ? creationTimestamp.hashCode() : 0);
+        return result;
+    }
 }

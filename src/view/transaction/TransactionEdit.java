@@ -73,6 +73,11 @@ public class TransactionEdit implements Initializable {
         this.populate();
     }
 
+    /**
+     * Takes the values from a {@link model.Transaction} object and uses them to fill in the field of the form.
+     *
+     * @param transaction The transaction to take values from.
+     */
     public void setTransaction(final Transaction transaction) {
         this.transaction = transaction;
         this.transaction.getName().ifPresent(this.transactionName::setText);
@@ -81,6 +86,20 @@ public class TransactionEdit implements Initializable {
             this.amountCurrency.setValue(amount.getCurrency().getCurrencyCode());
             this.amountValue.setText(amount.getNumber().toString());
         });
+        this.transaction.getSource().ifPresent(item ->
+                        this.source.getItems()
+                                .stream()
+                                .filter(source -> source.account.equals(item))
+                                .findAny()
+                                .ifPresent(this.source.getSelectionModel()::select)
+        );
+        this.transaction.getSink().ifPresent(item ->
+                        this.sink.getItems()
+                                .stream()
+                                .filter(sink -> sink.account.equals(item))
+                                .findAny()
+                                .ifPresent(this.sink.getSelectionModel()::select)
+        );
     }
 
     public void populate() {

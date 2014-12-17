@@ -16,15 +16,22 @@ public class Transaction {
     private Long date;
 
     public Transaction(final Long id, final Transaction transaction) {
-        this(id, transaction.name, transaction.source, transaction.sink, transaction.amount);
+        this(id, transaction.name, transaction.date, transaction.source, transaction.sink, transaction.amount);
     }
 
-    public Transaction(final Long id, final String name, final Account source, final Account sink, final MonetaryAmount amount) {
+    public Transaction(
+            final Long id,
+            final String name,
+            final Long date,
+            final Account source,
+            final Account sink,
+            final MonetaryAmount amount) {
         this.id = id;
         this.name = name;
         this.source = source;
         this.sink = sink;
         this.amount = amount;
+        this.date = date;
     }
 
     public Transaction(final MonetaryAmount amount, final Account source, final Account sink) {
