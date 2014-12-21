@@ -102,6 +102,9 @@ public class TransactionEdit implements Initializable {
         );
     }
 
+    /**
+     * Populates the comboboxes with the appropriate values.
+     */
     public void populate() {
         final List<AccountListView> accounts = this.controller
                 .getAccounts()
@@ -161,7 +164,6 @@ public class TransactionEdit implements Initializable {
                     messages
                             .stream()
                             .reduce("", (a, b) -> String.format("%s\n%s", a, b)).replaceFirst("\n", ""));
-
         }
         return messages.isEmpty();
     }

@@ -62,21 +62,38 @@ public class SQLite implements Database {
     }
 
     @Override
-    public Account save(final Account account) {
+    public Account create(final Account account) {
         Account result = null;
-        try (final Statement statement = this.connection.createStatement()) {
-            final String query;
-            if (account.id.isPresent()) {
-                query = String.format("UPDATE account SET name='%s', creation_date='%s' WHERE id=%s", account.getName(), account.getCreationTimestamp(), account.id.get());
-            } else {
-                query = String.format("INSERT INTO account (name, creation_date) VALUES ('%s', '%s')", account.getName(), account.getCreationTimestamp());
-            }
-            statement.executeUpdate(query);
-            ResultSet resultSet = statement.getGeneratedKeys();
+        final String query = "INSERT INTO account (name, creation_date) VALUES (?, ?)";
+        try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
+            statement.setString(1, account.getName());
+            final Calendar calendar = Calendar.getInstance();
+            final Timestamp timestamp = new Timestamp(calendar.getTime().getTime());
+            statement.setTimestamp(2, timestamp);
+            statement.execute();
+            final ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
             result = new Account(resultSet.getLong(1), account.getName());
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+        } catch (SQLException e) {
+            //TODO: log
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public Account update(final Account account) {
+        Account result = null;
+        final String query = "UPDATE account SET name=? WHERE id=?";
+        try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
+            statement.setString(1, account.getName());
+            statement.setLong(2, account.getId().get());
+            if (statement.execute()) {
+                result = account;
+            }
+        } catch (SQLException e) {
+            //TODO: log
+            e.printStackTrace();
         }
         return result;
     }
@@ -154,8 +171,8 @@ public class SQLite implements Database {
             statement.setTimestamp(2, timestamp);
             statement.setTimestamp(3, new Timestamp(transaction.getDate().get()));
             statement.setString(4, transaction.getAmount().get().toString());
-            statement.setLong(5, transaction.getSource().get().id.get());
-            statement.setLong(6, transaction.getSink().get().id.get());
+            statement.setLong(5, transaction.getSource().get().getId().get());
+            statement.setLong(6, transaction.getSink().get().getId().get());
             statement.executeUpdate();
             final ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
@@ -169,13 +186,21 @@ public class SQLite implements Database {
 
     @Override
     public Transaction update(final Transaction transaction) {
-        String query = "UPDATE money_transaction SET name=?, creation_date=?, date=?, monetary_amount=?, source=?, sink=? WHERE id=?";
+        Transaction result = null;
+        final String query = "UPDATE money_transaction SET name=?, date=?, monetary_amount=?, source=?, sink=? WHERE id=?";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
             statement.setString(1, transaction.getName().get());
+            statement.setLong(2, transaction.getDate().get());
+            statement.setString(3, transaction.getAmount().get().toString());
+            statement.setLong(4, transaction.getSource().get().getId().get());
+            statement.setLong(5, transaction.getSink().get().getId().get());
+            statement.setLong(6, transaction.getId().get());
+            statement.executeUpdate();
+            result = transaction;
         } catch (SQLException e) {
             //TODO: log
             e.printStackTrace();
         }
-        return null;
+        return result;
     }
 }

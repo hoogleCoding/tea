@@ -6,17 +6,17 @@ import java.util.Optional;
  * Created by Florian Hug <florian.hug@gmail.com> on 10/20/14.
  */
 public class Account {
-    public final Optional<Long> id;
+    public final Long id;
     private String name;
     private Long creationTimestamp;
 
     public Account(final Long id, final String name) {
-        this.id = Optional.of(id);
+        this.id = id;
         this.name = name;
     }
 
     public Account() {
-        this.id = Optional.empty();
+        this.id = null;
     }
 
     public String getName() {
@@ -55,5 +55,9 @@ public class Account {
         result = 31 * result + name.hashCode();
         result = 31 * result + (creationTimestamp != null ? creationTimestamp.hashCode() : 0);
         return result;
+    }
+
+    public Optional<Long> getId() {
+        return Optional.ofNullable(this.id);
     }
 }

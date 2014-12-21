@@ -1,16 +1,16 @@
 package view.account;
 
 import com.cathive.fx.guice.FXMLController;
+import com.cathive.fx.guice.GuiceFXMLLoader;
 import controller.database.DatabaseController;
+import controller.layout.OverlayProvider;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import model.Account;
 
@@ -33,6 +33,10 @@ public class AccountView implements Initializable {
     private Pane mainPanel;
     @Inject
     private DatabaseController databaseController;
+    @Inject
+    private GuiceFXMLLoader fxmlLoader;
+    @Inject
+    private OverlayProvider overlayProvider;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -44,24 +48,23 @@ public class AccountView implements Initializable {
     public void handleItemClicked(final MouseEvent event) {
         final AccountListView accountListView = this.accountList.getSelectionModel().getSelectedItem();
         if (accountListView != null) {
-            this.createOrEditAccount(accountListView.account);
+            this.showAccountEdit(accountListView.account);
         }
     }
 
     @FXML
     public void addAccount(final ActionEvent actionEvent) {
-        this.createOrEditAccount(new Account());
+        this.showAccountEdit(new Account());
     }
 
-    private void createOrEditAccount(final Account account) {
-        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AccountEdit.fxml"));
-        final AccountEdit controller = new AccountEdit(this.databaseController);
-        controller.setAccount(account);
-        fxmlLoader.setController(controller);
+    private void showAccountEdit(final Account account) {
         try {
-            final GridPane accountEditForm = fxmlLoader.load();
-            this.mainPanel.getChildren().setAll(accountEditForm);
+            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("AccountEdit.fxml"));
+            final AccountEdit controller = result.getController();
+            controller.setAccount(account);
+            this.overlayProvider.show(result.getRoot());
         } catch (IOException e) {
+            //TODO: log
             e.printStackTrace();
         }
     }

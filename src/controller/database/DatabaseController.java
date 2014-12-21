@@ -31,9 +31,12 @@ public class DatabaseController {
     }
 
     public Account save(final Account account) {
-        final Account saved = this.database.save(account);
-        this.accountListeners.forEach(listener -> listener.accept(saved));
-        return saved;
+        final Account result = account
+                .getId()
+                .map(i -> this.database.update(account))
+                .orElseGet(() -> this.database.create(account));
+        this.accountListeners.forEach(listener -> listener.accept(result));
+        return result;
     }
 
     public void addAccountChangeListener(final Consumer<Account> listener) {

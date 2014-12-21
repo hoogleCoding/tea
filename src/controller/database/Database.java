@@ -12,12 +12,20 @@ import java.util.Optional;
 public interface Database {
 
     /**
-     * Saves an Account in the database by either updating the account's record or creating a new database entry for the account.
+     * Creates a {@link model.Account} in the database.
      *
-     * @param account The account to save or update
-     * @return The saved account. If the account did not exist the returned account contains the primary key.
+     * @param account The {@link model.Account} to create.
+     * @return The saved transaction. With its ids set.
      */
-    Account save(final Account account);
+    Account create(final Account account);
+
+    /**
+     * Updates a database record with the information from the {@link model.Account}.
+     *
+     * @param account The transaction to update in the database.
+     * @return The updated transaction.
+     */
+    Account update(final Account account);
 
     /**
      * Returns all accounts from the database.

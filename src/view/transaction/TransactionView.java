@@ -68,7 +68,7 @@ public class TransactionView implements Initializable {
     private void showTransactionEdit(final Transaction transaction) {
         try {
             final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("TransactionEdit.fxml"));
-            TransactionEdit controller = result.getController();
+            final TransactionEdit controller = result.getController();
             controller.setTransaction(transaction);
             this.overlayProvider.show(result.getRoot());
         } catch (IOException e) {
