@@ -2,9 +2,9 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="overlayed"
           stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="view.account.AccountEdit">
@@ -15,72 +15,104 @@
     <rowConstraints>
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" vgrow="ALWAYS"/>
+        <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
     </rowConstraints>
     <padding>
         <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
     </padding>
-    <Label styleClass="form_header" text="Account information" GridPane.columnSpan="2"/>
-    <Label text="Name" GridPane.rowIndex="1">
-        <GridPane.margin>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-        </GridPane.margin>
-        <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-        </padding>
-    </Label>
-    <Label text="Creation date" GridPane.hgrow="NEVER" GridPane.rowIndex="2">
-        <GridPane.margin>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-        </GridPane.margin>
-        <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-        </padding>
-    </Label>
-    <HBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER">
+    <children>
+        <Label styleClass="form_header" text="Account information" GridPane.columnSpan="2"/>
+        <Label text="Name" GridPane.rowIndex="1">
             <GridPane.margin>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
             </GridPane.margin>
-        <TextField fx:id="accountName" promptText="Account name">
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </padding>
-        </TextField>
-        <Label fx:id="accountNameError" focusTraversable="false" visible="false">
-            <graphic>
-                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../resources/warning_24.png"/>
-                </ImageView>
-            </graphic>
-            <tooltip>
-                <Tooltip fx:id="accountNameErrorTooltip" styleClass="errorMessage"/>
-            </tooltip>
-            <HBox.margin>
-                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-            </HBox.margin>
         </Label>
-    </HBox>
-    <DatePicker fx:id="creationDate" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-    <HBox GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3"
-          GridPane.vgrow="NEVER">
-        <Button mnemonicParsing="false" onAction="#save" styleClass="save_button" text="Save"
-                HBox.hgrow="NEVER">
+        <Label text="Description" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </GridPane.margin>
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </padding>
-            <HBox.margin>
+        </Label>
+        <HBox spacing="4.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1"
+              GridPane.vgrow="NEVER">
+            <GridPane.margin>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-            </HBox.margin>
-        </Button>
-        <Button mnemonicParsing="false" onAction="#cancel" styleClass="cancel_button" text="Cancel"
-                HBox.hgrow="NEVER">
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-            <HBox.margin>
-                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-            </HBox.margin>
-        </Button>
-    </HBox>
+            </GridPane.margin>
+            <children>
+                <TextField fx:id="accountName" prefWidth="200.0" promptText="Account name">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </TextField>
+                <Label fx:id="accountNameError" focusTraversable="false" visible="false">
+                    <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../resources/warning_24.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <tooltip>
+                        <Tooltip fx:id="accountNameErrorTooltip" styleClass="errorMessage"/>
+                    </tooltip>
+                    <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                    </HBox.margin>
+                </Label>
+            </children>
+        </HBox>
+        <HBox GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3"
+              GridPane.vgrow="NEVER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#save" styleClass="save_button" text="Save"
+                        HBox.hgrow="NEVER">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                    <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#cancel" styleClass="cancel_button" text="Cancel"
+                        HBox.hgrow="NEVER">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                    <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+        <HBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <children>
+                <TextArea fx:id="description" prefHeight="80.0" prefWidth="200.0" wrapText="true">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </TextArea>
+                <Label fx:id="descriptionError" focusTraversable="false" visible="false">
+                    <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../resources/warning_24.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <tooltip>
+                        <Tooltip fx:id="descriptionErrorTooltip" styleClass="errorMessage"/>
+                    </tooltip>
+                    <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                    </HBox.margin>
+                </Label>
+            </children>
+        </HBox>
+    </children>
 </GridPane>

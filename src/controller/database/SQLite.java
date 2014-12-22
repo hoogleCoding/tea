@@ -53,7 +53,7 @@ public class SQLite implements Database {
 
     private void setupDatabase() {
         try (final Statement statement = this.connection.createStatement()) {
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS account (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, creation_date INT NOT NULL)");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS account (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, creation_date INT NOT NULL, description TEXT)");
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS money_transaction (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, date INT NOT NULL, creation_date INT NOT NULL, monetary_amount TEXT NOT NULL, source INTEGER NOT NULL, sink INTEGER NOT NULL )");
             statement.close();
         } catch (SQLException e) {
@@ -64,12 +64,13 @@ public class SQLite implements Database {
     @Override
     public Account create(final Account account) {
         Account result = null;
-        final String query = "INSERT INTO account (name, creation_date) VALUES (?, ?)";
+        final String query = "INSERT INTO account (name, description, creation_date) VALUES (?, ?, ?)";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
             statement.setString(1, account.getName());
+            statement.setString(2, account.getDescription());
             final Calendar calendar = Calendar.getInstance();
             final Timestamp timestamp = new Timestamp(calendar.getTime().getTime());
-            statement.setTimestamp(2, timestamp);
+            statement.setTimestamp(3, timestamp);
             statement.execute();
             final ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
@@ -84,13 +85,13 @@ public class SQLite implements Database {
     @Override
     public Account update(final Account account) {
         Account result = null;
-        final String query = "UPDATE account SET name=? WHERE id=?";
+        final String query = "UPDATE account SET name=?, description=? WHERE id=?";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
             statement.setString(1, account.getName());
-            statement.setLong(2, account.getId().get());
-            if (statement.execute()) {
-                result = account;
-            }
+            statement.setString(2, account.getDescription());
+            statement.setLong(3, account.getId().get());
+            statement.execute();
+            result = account;
         } catch (SQLException e) {
             //TODO: log
             e.printStackTrace();
@@ -106,7 +107,9 @@ public class SQLite implements Database {
             while (result.next()) {
                 final Long id = result.getLong("id");
                 final String accountName = result.getString("name");
+                final String description = result.getString("description");
                 final Account account = new Account(id, accountName);
+                account.setDescription(description);
                 account.setCreationTimestamp(result.getLong("creation_date"));
                 accounts.add(account);
             }
@@ -125,7 +128,9 @@ public class SQLite implements Database {
             if (resultSet.next()) {
                 final Long accountId = resultSet.getLong("id");
                 final String accountName = resultSet.getString("name");
+                final String description = resultSet.getString("description");
                 final Account account = new Account(accountId, accountName);
+                account.setDescription(description);
                 account.setCreationTimestamp(resultSet.getLong("creation_date"));
                 result = Optional.of(account);
             }

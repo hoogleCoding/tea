@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import model.Account;
@@ -46,9 +47,11 @@ public class AccountView implements Initializable {
 
     @FXML
     public void handleItemClicked(final MouseEvent event) {
-        final AccountListView accountListView = this.accountList.getSelectionModel().getSelectedItem();
-        if (accountListView != null) {
-            this.showAccountEdit(accountListView.account);
+        if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+            final AccountListView accountListView = this.accountList.getSelectionModel().getSelectedItem();
+            if (accountListView != null) {
+                this.showAccountEdit(accountListView.account);
+            }
         }
     }
 

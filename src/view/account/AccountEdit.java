@@ -5,14 +5,13 @@ import controller.database.DatabaseController;
 import controller.layout.OverlayProvider;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import model.Account;
 
 import javax.inject.Inject;
-import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class AccountEdit {
     @FXML
     public Tooltip accountNameErrorTooltip;
     @FXML
-    private DatePicker creationDate;
+    public TextArea description;
     @FXML
     private TextField accountName;
     //</editor-fold>
@@ -47,19 +46,16 @@ public class AccountEdit {
         this.account = account;
         if (isNotEmpty(this.account.getName())) {
             this.accountName.setText(this.account.getName());
-        }
-        if (this.account.getCreationTimestamp() == null) {
-            this.creationDate.setValue(LocalDate.now());
-        } else {
-            this.creationDate.setValue(LocalDate.ofEpochDay(this.account.getCreationTimestamp()));
+            this.description.setText(this.account.getDescription());
         }
     }
 
     public void save() {
-        if (this.account != null && validate()) {
+        if (this.account != null && this.validate()) {
             this.account.setName(this.accountName.getText());
-            this.account.setCreationTimestamp(this.creationDate.getValue().toEpochDay());
+            this.account.setDescription(this.description.getText());
             this.controller.save(account);
+            this.overlayProvider.dispose();
         }
     }
 
