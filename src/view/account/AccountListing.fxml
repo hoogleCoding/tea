@@ -6,7 +6,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.*?>
 <BorderPane prefHeight="600" prefWidth="800" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.account.AccountView">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.account.AccountListing">
     <left>
         <VBox>
             <Button mnemonicParsing="false" onAction="#addAccount" styleClass="add_button"
@@ -25,6 +25,6 @@
         </VBox>
     </left>
     <center>
-        <Pane fx:id="mainPanel" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+        <AnchorPane fx:id="mainPanel" prefHeight="200.0" prefWidth="200.0"/>
     </center>
 </BorderPane>

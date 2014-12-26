@@ -67,7 +67,7 @@ public class SQLite implements Database {
         final String query = "INSERT INTO account (name, description, creation_date) VALUES (?, ?, ?)";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
             statement.setString(1, account.getName());
-            statement.setString(2, account.getDescription());
+            statement.setString(2, account.getDescription().get());
             final Calendar calendar = Calendar.getInstance();
             final Timestamp timestamp = new Timestamp(calendar.getTime().getTime());
             statement.setTimestamp(3, timestamp);
@@ -88,7 +88,7 @@ public class SQLite implements Database {
         final String query = "UPDATE account SET name=?, description=? WHERE id=?";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
             statement.setString(1, account.getName());
-            statement.setString(2, account.getDescription());
+            statement.setString(2, account.getDescription().get());
             statement.setLong(3, account.getId().get());
             statement.execute();
             result = account;
@@ -160,6 +160,32 @@ public class SQLite implements Database {
             }
         } catch (SQLException exception) {
             exception.printStackTrace();
+        }
+        return transactions;
+    }
+
+    @Override
+    public Collection<? extends Transaction> getTransactionsForAccount(final Long accountId) {
+        final Collection<Transaction> transactions = new LinkedList<>();
+        final String query = "SELECT * FROM money_transaction WHERE source = ? OR sink = ?";
+        try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
+            statement.setLong(1, accountId);
+            statement.setLong(2, accountId);
+            final ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                final Long id = result.getLong("id");
+                final String name = result.getString("name");
+                final Optional<Account> source = this.getAccount(result.getLong("source"));
+                final Optional<Account> sink = this.getAccount(result.getLong("sink"));
+                final MonetaryAmount money_amount = RoundedMoney.parse(result.getString("monetary_amount"));
+                final Long date = result.getLong("date");
+                if (source.isPresent() && sink.isPresent()) {
+                    final Transaction transaction = new Transaction(id, name, date, source.get(), sink.get(), money_amount);
+                    transactions.add(transaction);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return transactions;
     }

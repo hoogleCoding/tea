@@ -34,7 +34,7 @@ public class MainWindow implements Initializable, OverlayProvider {
             this.accountsTab
                     .setContent(
                             fxmlLoader
-                                    .load(getClass().getResource("account/AccountView.fxml"))
+                                    .load(getClass().getResource("account/AccountListing.fxml"))
                                     .getRoot());
             this.transactionTab
                     .setContent(

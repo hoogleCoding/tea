@@ -43,11 +43,18 @@ public interface Database {
     Optional<Account> getAccount(final Long id);
 
     /**
-     * Returns all transactions from the database;
+     * Returns all transactions from the database.
+     *
+     * @return A collection of all transactions found in the database.
+     */
+    Collection<Transaction> getTransactions();
+
+    /**
+     * Returns all transactions from the database which are associated to a given account's id.
      *
      * @return A collection of all transactions found in the database;
      */
-    Collection<Transaction> getTransactions();
+    Collection<? extends Transaction> getTransactionsForAccount(final Long accountId);
 
     /**
      * Creates a {@link model.Transaction} in the database.
@@ -64,4 +71,5 @@ public interface Database {
      * @return The updated transaction.
      */
     Transaction update(final Transaction transaction);
+
 }

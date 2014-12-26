@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -52,6 +53,19 @@ public class DatabaseController {
     }
 
     /**
+     * Gets all {@link model.Transaction}s associated with a given {@link model.Account}. The method will return an empty
+     * collection if no transactions were found or the account cannot be found in the database.
+     *
+     * @param account The {@link model.Account} to get the transactions for
+     * @return A collections of transactions for the given account.
+     */
+    public Collection<Transaction> getTransactions(final Account account) {
+        final List<Transaction> result = new LinkedList<>();
+        account.getId().ifPresent(id -> result.addAll(this.database.getTransactionsForAccount(id)));
+        return result;
+    }
+
+    /**
      * Saves a {@link model.Transaction} in the database if the {@link model.Transaction} does not exist it will be
      * created otherwise the existing data will be overwritten.
      *
@@ -66,4 +80,5 @@ public class DatabaseController {
         this.transactionListeners.forEach(listener -> listener.accept(result));
         return result;
     }
+
 }

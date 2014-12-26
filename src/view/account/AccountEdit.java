@@ -30,12 +30,12 @@ public class AccountEdit {
     @FXML
     public TextArea description;
     @FXML
-    private TextField accountName;
+    TextField accountName;
     //</editor-fold>
     @Inject
-    private OverlayProvider overlayProvider;
+    OverlayProvider overlayProvider;
     @Inject
-    private DatabaseController controller;
+    DatabaseController controller;
     private Account account = null;
 
     public Account getAccount() {
@@ -46,8 +46,8 @@ public class AccountEdit {
         this.account = account;
         if (isNotEmpty(this.account.getName())) {
             this.accountName.setText(this.account.getName());
-            this.description.setText(this.account.getDescription());
         }
+        this.account.getDescription().ifPresent(this.description::setText);
     }
 
     public void save() {
@@ -63,11 +63,11 @@ public class AccountEdit {
         this.overlayProvider.dispose();
     }
 
-    private boolean validate() {
+    boolean validate() {
         return this.validateAccountName();
     }
 
-    private boolean validateAccountName() {
+    boolean validateAccountName() {
         final List<String> messages = new LinkedList<>();
         if (this.accountName.getText().isEmpty()) {
             messages.add("The account needs a name");

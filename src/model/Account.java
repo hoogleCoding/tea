@@ -8,7 +8,7 @@ import java.util.Optional;
 public class Account {
     public final Long id;
     private String name;
-    private String description = "";
+    private String description;
     private Long creationTimestamp;
 
     public Account(final Long id, final String name) {
@@ -58,8 +58,8 @@ public class Account {
         return Optional.ofNullable(this.id);
     }
 
-    public String getDescription() {
-        return description;
+    public Optional<String> getDescription() {
+        return Optional.ofNullable(description);
     }
 
     public void setDescription(String description) {

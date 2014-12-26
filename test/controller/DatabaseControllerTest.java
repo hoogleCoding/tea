@@ -22,7 +22,9 @@ public class DatabaseControllerTest {
         final DatabaseController controller = new DatabaseController(mock(Database.class));
         final boolean[] isCalled = {false};
         controller.addAccountChangeListener(x -> isCalled[0] = true);
-        controller.save(mock(Account.class));
+        Account account = mock(Account.class);
+        when(account.getId()).thenReturn(Optional.empty());
+        controller.save(account);
         assertTrue("The account controller should inform its listeners of a save.", isCalled[0]);
     }
 

@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
  * Created by Florian Hug <florian.hug@gmail.com> on 10/20/14.
  */
 @FXMLController
-public class AccountView implements Initializable {
+public class AccountListing implements Initializable {
 
     @FXML
     private ListView<AccountListView> accountList;
@@ -47,10 +48,13 @@ public class AccountView implements Initializable {
 
     @FXML
     public void handleItemClicked(final MouseEvent event) {
-        if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+        if (event.getButton().equals(MouseButton.PRIMARY)) {
             final AccountListView accountListView = this.accountList.getSelectionModel().getSelectedItem();
             if (accountListView != null) {
-                this.showAccountEdit(accountListView.account);
+                this.showAccountOverview(accountListView.account);
+                if (event.getClickCount() == 2) {
+                    this.showAccountEdit(accountListView.account);
+                }
             }
         }
     }
@@ -58,6 +62,17 @@ public class AccountView implements Initializable {
     @FXML
     public void addAccount(final ActionEvent actionEvent) {
         this.showAccountEdit(new Account());
+    }
+
+    private void showAccountOverview(final Account account) {
+        try {
+            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("AccountOverview.fxml"));
+            final AccountOverview controller = result.getController();
+            controller.setAccount(account);
+            this.mainPanel.getChildren().setAll(result.<Node>getRoot());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showAccountEdit(final Account account) {
