@@ -1,11 +1,15 @@
 package config;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.name.Names;
 import controller.database.Database;
 import controller.database.DatabaseController;
 import controller.database.SQLite;
 import controller.layout.OverlayProvider;
 import view.MainWindow;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 10/26/14.
@@ -16,5 +20,8 @@ public class InjectorConfig extends AbstractModule {
         bind(Database.class).to(SQLite.class).asEagerSingleton();
         bind(DatabaseController.class);
         bind(OverlayProvider.class).to(MainWindow.class);
+        bind(ResourceBundle.class)
+                .annotatedWith(Names.named("i18n-resources"))
+                .toInstance(ResourceBundle.getBundle("resources.fugger", Locale.forLanguageTag("en")));
     }
 }

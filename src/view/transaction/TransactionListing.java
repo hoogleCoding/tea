@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import model.Transaction;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
  * Created by Florian Hug <florian.hug@gmail.com> on 10/31/14.
  */
 @FXMLController
-public class TransactionView implements Initializable {
+public class TransactionListing implements Initializable {
 
     @FXML
     public ListView<Transaction> transactionList;
@@ -35,6 +36,9 @@ public class TransactionView implements Initializable {
     private GuiceFXMLLoader fxmlLoader;
     @Inject
     private OverlayProvider overlayProvider;
+    @Inject
+    @Named("i18n-resources")
+    private ResourceBundle resources;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -67,7 +71,7 @@ public class TransactionView implements Initializable {
 
     private void showTransactionEdit(final Transaction transaction) {
         try {
-            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("TransactionEdit.fxml"));
+            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("TransactionEdit.fxml"), this.resources);
             final TransactionEdit controller = result.getController();
             controller.setTransaction(transaction);
             this.overlayProvider.show(result.getRoot());

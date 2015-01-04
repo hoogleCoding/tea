@@ -17,6 +17,7 @@ import javafx.scene.layout.Pane;
 import model.Account;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -39,6 +40,9 @@ public class AccountListing implements Initializable {
     private GuiceFXMLLoader fxmlLoader;
     @Inject
     private OverlayProvider overlayProvider;
+    @Inject
+    @Named("i18n-resources")
+    private ResourceBundle resources;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,7 +70,7 @@ public class AccountListing implements Initializable {
 
     private void showAccountOverview(final Account account) {
         try {
-            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("AccountOverview.fxml"));
+            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("AccountOverview.fxml"), resources);
             final AccountOverview controller = result.getController();
             controller.setAccount(account);
             this.mainPanel.getChildren().setAll(result.<Node>getRoot());
@@ -77,7 +81,7 @@ public class AccountListing implements Initializable {
 
     private void showAccountEdit(final Account account) {
         try {
-            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("AccountEdit.fxml"));
+            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("AccountEdit.fxml"), resources);
             final AccountEdit controller = result.getController();
             controller.setAccount(account);
             this.overlayProvider.show(result.getRoot());

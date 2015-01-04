@@ -1,5 +1,6 @@
 package model;
 
+import javax.money.CurrencyUnit;
 import java.util.Optional;
 
 /**
@@ -10,6 +11,7 @@ public class Account {
     private String name;
     private String description;
     private Long creationTimestamp;
+    private CurrencyUnit currency;
 
     public Account(final Long id, final String name) {
         this.id = id;
@@ -64,5 +66,13 @@ public class Account {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public CurrencyUnit getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(CurrencyUnit currency) {
+        this.currency = currency;
     }
 }

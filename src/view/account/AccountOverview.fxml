@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"
@@ -18,8 +16,31 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
         </padding>
     </Label>
-    <Label fx:id="description" text="Description" wrapText="true" GridPane.columnIndex="0"
-           GridPane.rowIndex="1">
+    <HBox>
+        <Label text="%AccountOverview.Currency" focusTraversable="false">
+            <padding>
+                <Insets bottom="5.0" left="5" right="5" top="5"/>
+            </padding>
+        </Label>
+        <Label fx:id="currency" text="Currency" focusTraversable="false">
+            <padding>
+                <Insets bottom="5.0" left="5" right="5" top="5"/>
+            </padding>
+        </Label>
+    </HBox>
+    <HBox>
+        <Label text="%AccountOverview.Balance" focusTraversable="false">
+            <padding>
+                <Insets bottom="5.0" left="5" right="5" top="5"/>
+            </padding>
+        </Label>
+        <Label fx:id="balance" text="Balance" focusTraversable="false">
+            <padding>
+                <Insets bottom="5.0" left="5" right="5" top="5"/>
+            </padding>
+        </Label>
+    </HBox>
+    <Label fx:id="description" text="Description" wrapText="true" focusTraversable="false">
         <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
         </padding>

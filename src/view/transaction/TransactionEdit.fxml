@@ -23,7 +23,7 @@
     <padding>
         <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
     </padding>
-    <Label focusTraversable="false" text="Create transaction" GridPane.columnSpan="2147483647">
+    <Label focusTraversable="false" text="%TransactionEdit.Header" GridPane.columnSpan="2147483647">
         <font>
             <Font name="System Bold" size="18.0"/>
         </font>
@@ -31,28 +31,28 @@
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
         </padding>
     </Label>
-    <Label focusTraversable="false" text="Name" GridPane.rowIndex="1">
+    <Label focusTraversable="false" text="%TransactionEdit.Name" GridPane.rowIndex="1">
         <padding>
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
         </padding>
     </Label>
-    <Label focusTraversable="false" text="Amount" GridPane.rowIndex="3">
+    <Label focusTraversable="false" text="%TransactionEdit.Amount" GridPane.rowIndex="3">
         <padding>
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
         </padding>
     </Label>
-    <Label focusTraversable="false" text="Source" GridPane.rowIndex="4">
+    <Label focusTraversable="false" text="%TransactionEdit.Source" GridPane.rowIndex="4">
         <padding>
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
         </padding>
     </Label>
-    <Label focusTraversable="false" text="Sink" GridPane.rowIndex="5">
+    <Label focusTraversable="false" text="%TransactionEdit.Sink" GridPane.rowIndex="5">
         <padding>
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
         </padding>
     </Label>
     <HBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-        <ComboBox fx:id="amountCurrency" prefWidth="80.0" promptText="currency"/>
+        <ComboBox fx:id="amountCurrency" prefWidth="80.0" promptText="%TransactionEdit.Currency_prompt"/>
         <TextField fx:id="amountValue"/>
         <Label fx:id="amountError" focusTraversable="false" visible="false">
             <graphic>
@@ -69,7 +69,7 @@
         </Label>
     </HBox>
     <HBox GridPane.columnIndex="1" GridPane.rowIndex="4">
-        <ComboBox fx:id="source" prefWidth="200.0" promptText="select source" GridPane.columnIndex="1"
+        <ComboBox fx:id="source" prefWidth="200.0" promptText="%TransactionEdit.Source_prompt" GridPane.columnIndex="1"
                   GridPane.rowIndex="3">
             <GridPane.margin>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -90,7 +90,7 @@
         </Label>
     </HBox>
     <HBox GridPane.columnIndex="1" GridPane.rowIndex="5">
-        <ComboBox fx:id="sink" prefWidth="200.0" promptText="select sink" GridPane.columnIndex="1"
+        <ComboBox fx:id="sink" prefWidth="200.0" promptText="%TransactionEdit.Sink_prompt" GridPane.columnIndex="1"
                   GridPane.rowIndex="4">
             <GridPane.margin>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -111,67 +111,59 @@
         </Label>
     </HBox>
     <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
-        <children>
-            <TextField fx:id="transactionName" prefWidth="300.0" promptText="Name your transaction"
-                       GridPane.columnIndex="1" GridPane.rowIndex="1">
-                <GridPane.margin>
-                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                </GridPane.margin>
-            </TextField>
-            <Label fx:id="nameError" focusTraversable="false" visible="false">
-                <graphic>
-                    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                            <Image url="@../resources/warning_24.png"/>
-                        </image>
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip fx:id="nameErrorTooltip" styleClass="errorMessage"/>
-                </tooltip>
-                <HBox.margin>
-                    <Insets bottom="1.0" left="1.0" right="1.0" top="1.0"/>
-                </HBox.margin>
-            </Label>
-        </children>
+        <TextField fx:id="transactionName" prefWidth="300.0" promptText="%TransactionEdit.Name_prompt"
+                   GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </GridPane.margin>
+        </TextField>
+        <Label fx:id="nameError" focusTraversable="false" visible="false">
+            <graphic>
+                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../resources/warning_24.png"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip fx:id="nameErrorTooltip" styleClass="errorMessage"/>
+            </tooltip>
+            <HBox.margin>
+                <Insets bottom="1.0" left="1.0" right="1.0" top="1.0"/>
+            </HBox.margin>
+        </Label>
     </HBox>
     <HBox spacing="4.0" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
-        <children>
-            <Button mnemonicParsing="false" onAction="#saveTransaction" styleClass="save_button" text="Save">
-                <HBox.margin>
-                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#cancel" styleClass="cancel_button" text="Cancel">
-                <HBox.margin>
-                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                </HBox.margin>
-            </Button>
-        </children>
+        <Button mnemonicParsing="false" onAction="#saveTransaction" styleClass="save_button"
+                text="%TransactionEdit.Save">
+            <HBox.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </HBox.margin>
+        </Button>
+        <Button mnemonicParsing="false" onAction="#cancel" styleClass="cancel_button"
+                text="%TransactionEdit.Cancel">
+            <HBox.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </HBox.margin>
+        </Button>
     </HBox>
-    <Label focusTraversable="false" text="Date" GridPane.rowIndex="2">
+    <Label focusTraversable="false" text="%TransactionEdit.Date" GridPane.rowIndex="2">
         <padding>
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
         </padding>
     </Label>
     <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
-        <children>
-            <DatePicker fx:id="date"/>
-            <Label fx:id="dateError" focusTraversable="false" visible="false">
-                <graphic>
-                    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                            <Image url="@../resources/warning_24.png"/>
-                        </image>
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip fx:id="dateErrorTooltip" styleClass="errorMessage"/>
-                </tooltip>
-                <HBox.margin>
-                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                </HBox.margin>
-            </Label>
-        </children>
+        <DatePicker fx:id="date"/>
+        <Label fx:id="dateError" focusTraversable="false" visible="false">
+            <graphic>
+                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../resources/warning_24.png"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip fx:id="dateErrorTooltip" styleClass="errorMessage"/>
+            </tooltip>
+            <HBox.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </HBox.margin>
+        </Label>
     </HBox>
 </GridPane>

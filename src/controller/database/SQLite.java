@@ -5,6 +5,7 @@ import model.Transaction;
 import org.javamoney.moneta.RoundedMoney;
 
 import javax.money.MonetaryAmount;
+import javax.money.MonetaryCurrencies;
 import java.sql.*;
 import java.util.Calendar;
 import java.util.Collection;
@@ -53,7 +54,7 @@ public class SQLite implements Database {
 
     private void setupDatabase() {
         try (final Statement statement = this.connection.createStatement()) {
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS account (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, creation_date INT NOT NULL, description TEXT)");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS account (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, creation_date INT NOT NULL, description TEXT, currency TEXT NOT NULL)");
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS money_transaction (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, date INT NOT NULL, creation_date INT NOT NULL, monetary_amount TEXT NOT NULL, source INTEGER NOT NULL, sink INTEGER NOT NULL )");
             statement.close();
         } catch (SQLException e) {
@@ -64,13 +65,14 @@ public class SQLite implements Database {
     @Override
     public Account create(final Account account) {
         Account result = null;
-        final String query = "INSERT INTO account (name, description, creation_date) VALUES (?, ?, ?)";
+        final String query = "INSERT INTO account (name, description, creation_date, currency) VALUES (?, ?, ?, ?)";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
             statement.setString(1, account.getName());
             statement.setString(2, account.getDescription().get());
             final Calendar calendar = Calendar.getInstance();
             final Timestamp timestamp = new Timestamp(calendar.getTime().getTime());
             statement.setTimestamp(3, timestamp);
+            statement.setString(4, account.getCurrency().getCurrencyCode());
             statement.execute();
             final ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
@@ -85,11 +87,12 @@ public class SQLite implements Database {
     @Override
     public Account update(final Account account) {
         Account result = null;
-        final String query = "UPDATE account SET name=?, description=? WHERE id=?";
+        final String query = "UPDATE account SET name=?, description=?, currency=? WHERE id=?";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
             statement.setString(1, account.getName());
             statement.setString(2, account.getDescription().get());
-            statement.setLong(3, account.getId().get());
+            statement.setString(3, account.getCurrency().getCurrencyCode());
+            statement.setLong(4, account.getId().get());
             statement.execute();
             result = account;
         } catch (SQLException e) {
@@ -103,14 +106,15 @@ public class SQLite implements Database {
     public Collection<Account> getAccounts() {
         final Collection<Account> accounts = new LinkedList<>();
         try (final Statement statement = this.getConnection().createStatement()) {
-            final ResultSet result = statement.executeQuery("SELECT * FROM account");
-            while (result.next()) {
-                final Long id = result.getLong("id");
-                final String accountName = result.getString("name");
-                final String description = result.getString("description");
+            final ResultSet resultSet = statement.executeQuery("SELECT * FROM account");
+            while (resultSet.next()) {
+                final Long id = resultSet.getLong("id");
+                final String accountName = resultSet.getString("name");
+                final String description = resultSet.getString("description");
                 final Account account = new Account(id, accountName);
                 account.setDescription(description);
-                account.setCreationTimestamp(result.getLong("creation_date"));
+                account.setCreationTimestamp(resultSet.getLong("creation_date"));
+                account.setCurrency(MonetaryCurrencies.getCurrency(resultSet.getString("currency")));
                 accounts.add(account);
             }
         } catch (SQLException exception) {
@@ -132,6 +136,7 @@ public class SQLite implements Database {
                 final Account account = new Account(accountId, accountName);
                 account.setDescription(description);
                 account.setCreationTimestamp(resultSet.getLong("creation_date"));
+                account.setCurrency(MonetaryCurrencies.getCurrency(resultSet.getString("currency")));
                 result = Optional.of(account);
             }
         } catch (SQLException exception) {

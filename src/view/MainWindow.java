@@ -9,6 +9,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.FlowPane;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.net.URL;
@@ -27,6 +28,9 @@ public class MainWindow implements Initializable, OverlayProvider {
     private Tab accountsTab;
     @FXML
     private Tab transactionTab;
+    @Inject
+    @Named("i18n-resources")
+    private ResourceBundle resources;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -34,12 +38,12 @@ public class MainWindow implements Initializable, OverlayProvider {
             this.accountsTab
                     .setContent(
                             fxmlLoader
-                                    .load(getClass().getResource("account/AccountListing.fxml"))
+                                    .load(getClass().getResource("account/AccountListing.fxml"), this.resources)
                                     .getRoot());
             this.transactionTab
                     .setContent(
                             fxmlLoader
-                                    .load(getClass().getResource("transaction/TransactionView.fxml"))
+                                    .load(getClass().getResource("transaction/TransactionListing.fxml"))
                                     .getRoot());
         } catch (IOException e) {
             //TODO: Log something

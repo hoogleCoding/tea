@@ -14,6 +14,7 @@ import org.javamoney.moneta.RoundedMoney;
 import view.account.AccountListView;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
@@ -21,6 +22,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+
+import static controller.MoneyHelper.getCurrencies;
 
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 11/12/14.
@@ -66,6 +69,9 @@ public class TransactionEdit implements Initializable {
     private DatabaseController controller;
     @Inject
     private OverlayProvider overlayProvider;
+    @Inject
+    @Named("i18n-resources")
+    private ResourceBundle resources;
     private Transaction transaction;
 
     @Override
@@ -116,7 +122,7 @@ public class TransactionEdit implements Initializable {
         sourceList.addAll(accounts);
         this.source.setItems(sourceList);
         this.sink.setItems(sourceList);
-        this.amountCurrency.setItems(FXCollections.observableList(this.getCurrencies()));
+        this.amountCurrency.setItems(FXCollections.observableList(getCurrencies()));
         this.amountCurrency.getSelectionModel().select(0);
     }
 
@@ -136,11 +142,12 @@ public class TransactionEdit implements Initializable {
 
     private boolean validate() {
         //TODO: Write tests for the validation.
-        return this.validateTransactionName() &&
-                this.validateDate() &&
-                this.validateAmount() &&
-                this.validateSource() &&
-                this.validateSink();
+        final boolean validName = this.validateTransactionName();
+        final boolean validDate = this.validateDate();
+        final boolean validAmount = this.validateAmount();
+        final boolean validSource = this.validateSource();
+        final boolean validSink = this.validateSink();
+        return validName && validDate && validAmount && validSource && validSink;
     }
 
     /**
@@ -151,7 +158,7 @@ public class TransactionEdit implements Initializable {
     private boolean validateTransactionName() {
         final List<String> messages = new LinkedList<>();
         if (this.transactionName.getText().isEmpty()) {
-            messages.add("The transaction needs a name");
+            messages.add(this.resources.getString("TransactionEdit.Needs_name"));
         }
         if (messages.isEmpty()) {
             this.nameError.visibleProperty().setValue(false);
@@ -176,7 +183,7 @@ public class TransactionEdit implements Initializable {
     private boolean validateDate() {
         final List<String> messages = new LinkedList<>();
         if (this.date.getValue() == null) {
-            messages.add("The transaction needs a date");
+            messages.add(this.resources.getString("TransactionEdit.Needs_date"));
         }
         if (messages.isEmpty()) {
             this.dateError.visibleProperty().setValue(false);
@@ -201,17 +208,17 @@ public class TransactionEdit implements Initializable {
     private boolean validateAmount() {
         final List<String> messages = new LinkedList<>();
         if (this.amountValue.getText().isEmpty()) {
-            messages.add("The transaction needs an amount");
+            messages.add(this.resources.getString("TransactionEdit.Needs_amount"));
         } else {
             final String amount = this.amountValue.getText();
             try {
                 new BigDecimal(amount);
             } catch (NumberFormatException exception) {
-                messages.add(String.format("The value %s is not a decimal", amount));
+                messages.add(String.format(this.resources.getString("TransactionEdit.Amount_not_a_number"), amount));
             }
         }
         if (this.amountCurrency.getSelectionModel().getSelectedItem() == null) {
-            messages.add("The transaction needs a currency");
+            messages.add(this.resources.getString("TransactionEdit.Needs_currency"));
         }
         if (messages.isEmpty()) {
             this.amountValue.getStyleClass().remove("error");
@@ -237,13 +244,16 @@ public class TransactionEdit implements Initializable {
     private boolean validateSource() {
         final List<String> messages = new LinkedList<>();
         if (this.source.getSelectionModel().getSelectedItem() == null) {
-            messages.add("The transaction needs a source");
+            messages.add(this.resources.getString("TransactionEdit.Needs_source"));
         } else {
             final AccountListView selectedSource = this.source.getSelectionModel().getSelectedItem();
             if (this.sink.getSelectionModel().getSelectedItem() != null) {
                 final AccountListView selectedSink = this.sink.getSelectionModel().getSelectedItem();
                 if (selectedSource.equals(selectedSink)) {
-                    messages.add("The sink of the transaction must be different from the source");
+                    messages.add(this.resources.getString("TransactionEdit.Sink_must_be_different"));
+                }
+                if (!selectedSource.account.getCurrency().equals(selectedSink.account.getCurrency())) {
+                    messages.add(this.resources.getString("TransactionEdit.Sink_must_have_same_currency"));
                 }
             }
         }
@@ -270,13 +280,16 @@ public class TransactionEdit implements Initializable {
     private boolean validateSink() {
         final List<String> messages = new LinkedList<>();
         if (this.sink.getSelectionModel().getSelectedItem() == null) {
-            messages.add("The transaction needs a sink");
+            messages.add(this.resources.getString("TransactionEdit.Needs_sink"));
         } else {
             final AccountListView selectedSink = this.sink.getSelectionModel().getSelectedItem();
             if (this.source.getSelectionModel().getSelectedItem() != null) {
                 final AccountListView selectedSource = this.source.getSelectionModel().getSelectedItem();
                 if (selectedSink.equals(selectedSource)) {
-                    messages.add("The source of the transaction must be different from the sink");
+                    messages.add(this.resources.getString("TransactionEdit.Source_must_be_different"));
+                }
+                if (!selectedSink.account.getCurrency().equals(selectedSource.account.getCurrency())) {
+                    messages.add(this.resources.getString("TransactionEdit.Source_must_have_same_currency"));
                 }
             }
         }
@@ -293,14 +306,6 @@ public class TransactionEdit implements Initializable {
                             .reduce("", (a, b) -> String.format("%s\n%s", a, b)).replaceFirst("\n", ""));
         }
         return messages.isEmpty();
-    }
-
-    private List<String> getCurrencies() {
-        List<String> currencies = new LinkedList<>();
-        currencies.add("CHF");
-        currencies.add("EUR");
-        currencies.add("USD");
-        return currencies;
     }
 
     public void cancel(final ActionEvent actionEvent) {

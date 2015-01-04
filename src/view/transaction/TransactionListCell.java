@@ -7,7 +7,10 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.GridPane;
 import model.Transaction;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 11/1/14.
@@ -23,9 +26,12 @@ public class TransactionListCell extends ListCell<Transaction> {
     public Label sink;
     @FXML
     public GridPane gridPane;
+    @Inject
+    @Named("i18n-resources")
+    private ResourceBundle resources;
 
     public TransactionListCell() {
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionListCell.fxml"));
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionListCell.fxml"), this.resources);
         loader.setController(this);
         try {
             loader.load();
