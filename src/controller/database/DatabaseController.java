@@ -31,6 +31,13 @@ public class DatabaseController {
         return this.database.getAccounts();
     }
 
+    /**
+     * Takes an {@link model.Account} and either creates it if it does not exist or updates the record in the database
+     * if it is already existing.
+     *
+     * @param account The account to save to the database.
+     * @return The account with the updated information or null if the record cold not be created or updated in the database.
+     */
     public Account save(final Account account) {
         final Account result = account
                 .getId()

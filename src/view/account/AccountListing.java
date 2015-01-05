@@ -1,5 +1,6 @@
 package view.account;
 
+import ViewModel.account.AccountEditViewModel;
 import com.cathive.fx.guice.FXMLController;
 import com.cathive.fx.guice.GuiceFXMLLoader;
 import controller.database.DatabaseController;
@@ -41,6 +42,8 @@ public class AccountListing implements Initializable {
     @Inject
     private OverlayProvider overlayProvider;
     @Inject
+    private AccountEditViewModel accountEditViewModel;
+    @Inject
     @Named("i18n-resources")
     private ResourceBundle resources;
 
@@ -81,9 +84,10 @@ public class AccountListing implements Initializable {
 
     private void showAccountEdit(final Account account) {
         try {
-            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("AccountEdit.fxml"), resources);
-            final AccountEdit controller = result.getController();
-            controller.setAccount(account);
+            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("AccountEditView.fxml"), resources);
+            final AccountEditView view = result.getController();
+            this.accountEditViewModel.setAccount(account);
+            view.setViewModel(this.accountEditViewModel);
             this.overlayProvider.show(result.getRoot());
         } catch (IOException e) {
             //TODO: log

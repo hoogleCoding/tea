@@ -43,7 +43,7 @@ public class MainWindow implements Initializable, OverlayProvider {
             this.transactionTab
                     .setContent(
                             fxmlLoader
-                                    .load(getClass().getResource("transaction/TransactionListing.fxml"))
+                                    .load(getClass().getResource("transaction/TransactionListing.fxml"), this.resources)
                                     .getRoot());
         } catch (IOException e) {
             //TODO: Log something

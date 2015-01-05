@@ -15,7 +15,7 @@ public interface Database {
      * Creates a {@link model.Account} in the database.
      *
      * @param account The {@link model.Account} to create.
-     * @return The saved transaction. With its ids set.
+     * @return The saved transaction. With its ids set or Null if the account could not be created.
      */
     Account create(final Account account);
 
@@ -23,7 +23,7 @@ public interface Database {
      * Updates a database record with the information from the {@link model.Account}.
      *
      * @param account The transaction to update in the database.
-     * @return The updated transaction.
+     * @return The updated transaction or Null if the account could not have been updated.
      */
     Account update(final Account account);
 

@@ -1,5 +1,6 @@
 package config;
 
+import ViewModel.account.AccountEditViewModel;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import controller.database.Database;
@@ -12,6 +13,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
+ * Injector config for guice.
  * Created by Florian Hug <florian.hug@gmail.com> on 10/26/14.
  */
 public class InjectorConfig extends AbstractModule {
@@ -20,6 +22,7 @@ public class InjectorConfig extends AbstractModule {
         bind(Database.class).to(SQLite.class).asEagerSingleton();
         bind(DatabaseController.class);
         bind(OverlayProvider.class).to(MainWindow.class);
+        bind(AccountEditViewModel.class);
         bind(ResourceBundle.class)
                 .annotatedWith(Names.named("i18n-resources"))
                 .toInstance(ResourceBundle.getBundle("resources.fugger", Locale.forLanguageTag("en")));

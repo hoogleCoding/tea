@@ -90,7 +90,7 @@ public class SQLite implements Database {
         final String query = "UPDATE account SET name=?, description=?, currency=? WHERE id=?";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
             statement.setString(1, account.getName());
-            statement.setString(2, account.getDescription().get());
+            statement.setString(2, account.getDescription().orElse(null));
             statement.setString(3, account.getCurrency().getCurrencyCode());
             statement.setLong(4, account.getId().get());
             statement.execute();

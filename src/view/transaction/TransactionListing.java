@@ -53,7 +53,7 @@ public class TransactionListing implements Initializable {
                 .collect(Collectors.toList());
         final ObservableList<Transaction> listContent = FXCollections.observableList(res);
         this.transactionList.setItems(listContent);
-        this.transactionList.setCellFactory(callback -> new TransactionListCell());
+        this.transactionList.setCellFactory(callback -> new TransactionListCell(this.resources));
     }
 
     @FXML

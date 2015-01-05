@@ -2,12 +2,11 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="overlayed"
           stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="view.account.AccountEdit">
+          fx:controller="view.account.AccountEditView">
     <columnConstraints>
         <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="100.0"/>
         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
@@ -118,26 +117,24 @@
         </HBox>
         <HBox GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="4"
               GridPane.vgrow="NEVER">
-            <children>
-                <Button mnemonicParsing="false" onAction="#save" styleClass="save_button" text="%AccountEdit.Save"
-                        HBox.hgrow="NEVER">
-                    <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                    </padding>
-                    <HBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                    </HBox.margin>
-                </Button>
-                <Button mnemonicParsing="false" onAction="#cancel" styleClass="cancel_button" text="%AccountEdit.Cancel"
-                        HBox.hgrow="NEVER">
-                    <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                    </padding>
-                    <HBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                    </HBox.margin>
-                </Button>
-            </children>
+            <Button mnemonicParsing="true" onAction="#save" styleClass="save_button" text="%AccountEdit.Save"
+                    HBox.hgrow="NEVER" fx:id="save" defaultButton="true">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+                <HBox.margin>
+                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#cancel" styleClass="cancel_button" text="%AccountEdit.Cancel"
+                    HBox.hgrow="NEVER" cancelButton="true">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+                <HBox.margin>
+                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                </HBox.margin>
+            </Button>
         </HBox>
     </children>
 </GridPane>
