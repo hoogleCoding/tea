@@ -1,6 +1,7 @@
 package view.account;
 
 import ViewModel.account.AccountEditViewModel;
+import ViewModel.account.AccountOverviewViewModel;
 import com.cathive.fx.guice.FXMLController;
 import com.cathive.fx.guice.GuiceFXMLLoader;
 import controller.database.DatabaseController;
@@ -42,7 +43,9 @@ public class AccountListing implements Initializable {
     @Inject
     private OverlayProvider overlayProvider;
     @Inject
-    private AccountEditViewModel accountEditViewModel;
+    private AccountEditViewModel editViewModel;
+    @Inject
+    private AccountOverviewViewModel overviewViewModel;
     @Inject
     @Named("i18n-resources")
     private ResourceBundle resources;
@@ -73,9 +76,10 @@ public class AccountListing implements Initializable {
 
     private void showAccountOverview(final Account account) {
         try {
-            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("AccountOverview.fxml"), resources);
-            final AccountOverview controller = result.getController();
-            controller.setAccount(account);
+            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("AccountOverviewView.fxml"), resources);
+            this.overviewViewModel.setAccount(account);
+            final AccountOverviewView view = result.getController();
+            view.setViewModel(this.overviewViewModel);
             this.mainPanel.getChildren().setAll(result.<Node>getRoot());
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,8 +90,8 @@ public class AccountListing implements Initializable {
         try {
             final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("AccountEditView.fxml"), resources);
             final AccountEditView view = result.getController();
-            this.accountEditViewModel.setAccount(account);
-            view.setViewModel(this.accountEditViewModel);
+            this.editViewModel.setAccount(account);
+            view.setViewModel(this.editViewModel);
             this.overlayProvider.show(result.getRoot());
         } catch (IOException e) {
             //TODO: log

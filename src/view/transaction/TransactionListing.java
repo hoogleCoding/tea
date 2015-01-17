@@ -1,5 +1,6 @@
 package view.transaction;
 
+import ViewModel.transaction.TransactionEditViewModel;
 import com.cathive.fx.guice.FXMLController;
 import com.cathive.fx.guice.GuiceFXMLLoader;
 import controller.database.DatabaseController;
@@ -37,6 +38,8 @@ public class TransactionListing implements Initializable {
     @Inject
     private OverlayProvider overlayProvider;
     @Inject
+    private TransactionEditViewModel transactionEditViewModel;
+    @Inject
     @Named("i18n-resources")
     private ResourceBundle resources;
 
@@ -71,9 +74,10 @@ public class TransactionListing implements Initializable {
 
     private void showTransactionEdit(final Transaction transaction) {
         try {
-            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("TransactionEdit.fxml"), this.resources);
-            final TransactionEdit controller = result.getController();
-            controller.setTransaction(transaction);
+            final GuiceFXMLLoader.Result result = this.fxmlLoader.load(getClass().getResource("TransactionEditView.fxml"), this.resources);
+            final TransactionEditView controller = result.getController();
+            this.transactionEditViewModel.setTransaction(transaction);
+            controller.setViewModel(this.transactionEditViewModel);
             this.overlayProvider.show(result.getRoot());
         } catch (IOException e) {
             //TODO: log

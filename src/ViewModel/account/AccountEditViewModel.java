@@ -14,6 +14,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static ViewModel.ViewModelUtils.flattenMessages;
+
 /**
  * Provides the ViewModel for the AccountEditView
  * Created by Florian Hug <florian.hug@gmail.com> on 1/4/15.
@@ -124,11 +126,5 @@ public class AccountEditViewModel {
         //TODO: Check if account name exists in the database.
         this.nameErrors.set(flattenMessages(messages));
         return messages.isEmpty();
-    }
-
-    private String flattenMessages(final List<String> messages) {
-        return messages
-                .stream()
-                .reduce("", (a, b) -> String.format("%s\n%s", a, b)).replaceFirst("\n", "");
     }
 }

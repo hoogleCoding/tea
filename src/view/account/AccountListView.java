@@ -13,6 +13,10 @@ public class AccountListView {
         this.account = account;
     }
 
+    public static AccountListView of(final Account account) {
+        return account == null ? null : new AccountListView(account);
+    }
+
     public String getName() {
         return this.account.getName();
     }

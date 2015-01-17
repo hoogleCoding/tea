@@ -8,6 +8,7 @@ import controller.database.DatabaseController;
 import controller.database.SQLite;
 import controller.layout.OverlayProvider;
 import view.MainWindow;
+import view.transaction.TransactionEditView;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -23,6 +24,7 @@ public class InjectorConfig extends AbstractModule {
         bind(DatabaseController.class);
         bind(OverlayProvider.class).to(MainWindow.class);
         bind(AccountEditViewModel.class);
+        bind(TransactionEditView.class);
         bind(ResourceBundle.class)
                 .annotatedWith(Names.named("i18n-resources"))
                 .toInstance(ResourceBundle.getBundle("resources.fugger", Locale.forLanguageTag("en")));

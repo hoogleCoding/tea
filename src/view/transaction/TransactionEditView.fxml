@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <GridPane prefWidth="400.0" styleClass="overlayed" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8"
-          xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.transaction.TransactionEdit">
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.transaction.TransactionEditView">
     <columnConstraints>
         <ColumnConstraints fillWidth="false" hgrow="NEVER" minWidth="10.0"/>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -132,7 +132,7 @@
         </Label>
     </HBox>
     <HBox spacing="4.0" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
-        <Button mnemonicParsing="false" onAction="#saveTransaction" styleClass="save_button"
+        <Button mnemonicParsing="false" onAction="#save" styleClass="save_button"
                 text="%TransactionEdit.Save">
             <HBox.margin>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
