@@ -67,16 +67,16 @@ public class SQLite implements Database {
         Account result = null;
         final String query = "INSERT INTO account (name, description, creation_date, currency) VALUES (?, ?, ?, ?)";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
-            statement.setString(1, account.getName());
+            statement.setString(1, account.getName().get());
             statement.setString(2, account.getDescription().get());
             final Calendar calendar = Calendar.getInstance();
             final Timestamp timestamp = new Timestamp(calendar.getTime().getTime());
             statement.setTimestamp(3, timestamp);
-            statement.setString(4, account.getCurrency().getCurrencyCode());
+            statement.setString(4, account.getCurrency().get().getCurrencyCode());
             statement.execute();
             final ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
-            result = new Account(resultSet.getLong(1), account.getName());
+            result = new Account(resultSet.getLong(1), account.getName().get());
         } catch (SQLException e) {
             //TODO: log
             e.printStackTrace();
@@ -89,9 +89,9 @@ public class SQLite implements Database {
         Account result = null;
         final String query = "UPDATE account SET name=?, description=?, currency=? WHERE id=?";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
-            statement.setString(1, account.getName());
+            statement.setString(1, account.getName().get());
             statement.setString(2, account.getDescription().orElse(null));
-            statement.setString(3, account.getCurrency().getCurrencyCode());
+            statement.setString(3, account.getCurrency().get().getCurrencyCode());
             statement.setLong(4, account.getId().get());
             statement.execute();
             result = account;

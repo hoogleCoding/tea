@@ -22,8 +22,8 @@ public class Account {
         this.id = null;
     }
 
-    public String getName() {
-        return this.name;
+    public Optional<String> getName() {
+        return Optional.ofNullable(this.name);
     }
 
     public void setName(final String name) {
@@ -68,8 +68,8 @@ public class Account {
         this.description = description;
     }
 
-    public CurrencyUnit getCurrency() {
-        return currency;
+    public Optional<CurrencyUnit> getCurrency() {
+        return Optional.ofNullable(currency);
     }
 
     public void setCurrency(CurrencyUnit currency) {

@@ -24,8 +24,10 @@ public class TransactionListCell extends ListCell<Transaction> {
     public Label sink;
     @FXML
     public GridPane gridPane;
+    private ResourceBundle resources;
 
     public TransactionListCell(final ResourceBundle resources) {
+        this.resources = resources;
         final FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionListCell.fxml"), resources);
         loader.setController(this);
         try {
@@ -44,8 +46,10 @@ public class TransactionListCell extends ListCell<Transaction> {
         } else {
             item.getName().ifPresent(this.transactionName::setText);
             item.getAmount().ifPresent(amount -> this.amount.setText(amount.toString()));
-            item.getSource().ifPresent(value -> this.source.setText(value.getName()));
-            item.getSink().ifPresent(value -> this.sink.setText(value.getName()));
+            item.getSource().ifPresent(value -> this.source.setText(
+                    value.getName().orElse(this.resources.getString("NotAvailable"))));
+            item.getSink().ifPresent(value -> this.sink.setText(
+                    value.getName().orElse(this.resources.getString("NotAvailable"))));
             this.setGraphic(this.gridPane);
         }
     }

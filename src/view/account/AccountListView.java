@@ -18,7 +18,7 @@ public class AccountListView {
     }
 
     public String getName() {
-        return this.account.getName();
+        return this.account.getName().orElse("N/A");
     }
 
     @Override

@@ -1,8 +1,12 @@
-package ViewModel.account;
+package viewmodel.account;
 
+import controller.MoneyHelper;
 import controller.database.DatabaseController;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import model.Account;
 
 import javax.inject.Inject;
@@ -14,14 +18,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static ViewModel.ViewModelUtils.flattenMessages;
+import static viewmodel.ViewModelUtils.flattenMessages;
 
 /**
- * Provides the ViewModel for the AccountEditView
+ * Provides the viewmodel for the AccountEditView
  * Created by Florian Hug <florian.hug@gmail.com> on 1/4/15.
  */
 public class AccountEditViewModel {
-    private final DatabaseController controller;
+    private final DatabaseController databaseController;
     private final ResourceBundle resources;
 
     private Account account;
@@ -30,35 +34,39 @@ public class AccountEditViewModel {
     private StringProperty currencyProperty;
     private StringProperty nameErrors;
     private StringProperty currencyErrors;
+    private ListProperty<String> currencyList;
 
     @Inject
-    public AccountEditViewModel(final DatabaseController controller,
+    public AccountEditViewModel(final DatabaseController databaseController1,
                                 @Named("i18n-resources") final ResourceBundle resourceBundle) {
-        this.controller = controller;
+        this.databaseController = databaseController1;
         this.resources = resourceBundle;
     }
 
     public void setAccount(final Account account) {
         this.account = account;
+        account.getName().ifPresent(this.getNameProperty()::setValue);
+        account.getDescription().ifPresent(this.getDescriptionProperty()::setValue);
+        account.getCurrency().ifPresent(currency -> this.getCurrencyProperty().setValue(currency.getCurrencyCode()));
     }
 
     public StringProperty getNameProperty() {
         if (this.nameProperty == null) {
-            this.nameProperty = new SimpleStringProperty(this.account.getName());
+            this.nameProperty = new SimpleStringProperty();
         }
         return nameProperty;
     }
 
     public StringProperty getDescriptionProperty() {
         if (this.descriptionProperty == null) {
-            this.descriptionProperty = new SimpleStringProperty(this.account.getDescription().orElse(""));
+            this.descriptionProperty = new SimpleStringProperty();
         }
         return this.descriptionProperty;
     }
 
     public StringProperty getCurrencyProperty() {
         if (this.currencyProperty == null) {
-            this.currencyProperty = new SimpleStringProperty(this.account.getCurrency().getCurrencyCode());
+            this.currencyProperty = new SimpleStringProperty();
         }
         return this.currencyProperty;
     }
@@ -78,7 +86,7 @@ public class AccountEditViewModel {
     }
 
     public boolean save() {
-        return this.validate() && this.synchronizeModel() && this.controller.save(this.account) != null;
+        return this.validate() && this.synchronizeModel() && this.databaseController.save(this.account) != null;
     }
 
     public boolean validate() {
@@ -108,8 +116,12 @@ public class AccountEditViewModel {
         final String value = this.getCurrencyProperty().getValue();
         if (value.isEmpty()) {
             messages.add(this.resources.getString("AccountEdit.Account_needs_currency"));
-        } else if (!this.account.getCurrency().getCurrencyCode().equals(this.getCurrencyProperty().getValueSafe())) {
-            if (this.account.getId().isPresent() && this.controller.getTransactions(this.account).size() > 0) {
+        } else if (
+                !this.account
+                        .getCurrency()
+                        .map(currency -> currency.getCurrencyCode().equals(this.getCurrencyProperty().getValueSafe()))
+                        .orElse(false)) {
+            if (this.account.getId().isPresent() && this.databaseController.getTransactions(this.account).size() > 0) {
                 messages.add(this.resources.getString("AccountEdit.Cannot_change_currency"));
             }
         }
@@ -126,5 +138,13 @@ public class AccountEditViewModel {
         //TODO: Check if account name exists in the database.
         this.nameErrors.set(flattenMessages(messages));
         return messages.isEmpty();
+    }
+
+    public ListProperty<String> getCurrencyList() {
+        if (this.currencyList == null) {
+            this.currencyList = new SimpleListProperty<>();
+            this.currencyList.setValue(FXCollections.observableList(MoneyHelper.getCurrencies()));
+        }
+        return this.currencyList;
     }
 }

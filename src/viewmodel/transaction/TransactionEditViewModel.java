@@ -1,4 +1,4 @@
-package ViewModel.transaction;
+package viewmodel.transaction;
 
 import controller.MoneyHelper;
 import controller.database.DatabaseController;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import static ViewModel.ViewModelUtils.flattenMessages;
+import static viewmodel.ViewModelUtils.flattenMessages;
 
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 1/5/15.

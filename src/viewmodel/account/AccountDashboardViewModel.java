@@ -1,6 +1,6 @@
-package ViewModel.account;
+package viewmodel.account;
 
-import ViewModel.transaction.TransactionListItemViewModel;
+import controller.MoneyHelper;
 import controller.database.DatabaseController;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import model.Account;
 import model.Transaction;
 import org.javamoney.moneta.FastMoney;
+import viewmodel.transaction.TransactionListItemViewModel;
 
 import javax.inject.Inject;
 import javax.money.CurrencyUnit;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 1/14/15.
  */
-public class AccountOverviewViewModel {
+public class AccountDashboardViewModel {
 
 
     private final DatabaseController controller;
@@ -35,14 +36,15 @@ public class AccountOverviewViewModel {
     private ListProperty<TransactionListItemViewModel> eventListProperty;
 
     @Inject
-    public AccountOverviewViewModel(final DatabaseController controller) {
+    public AccountDashboardViewModel(final DatabaseController controller) {
         this.controller = controller;
+        this.controller.addAccountChangeListener(this::setAccount);
     }
 
     public void setAccount(final Account account) {
-        this.getNameProperty().setValue(account.getName());
+        account.getName().ifPresent(this.getNameProperty()::setValue);
         account.getDescription().ifPresent(this.getDescriptionProperty()::setValue);
-        this.getCurrencyProperty().setValue(account.getCurrency().getCurrencyCode());
+        account.getCurrency().ifPresent(currency -> this.getCurrencyProperty().setValue(currency.getCurrencyCode()));
         this.getBalanceProperty().setValue(this.getBalance(account).getNumber().toString());
         this.getEventListProperty().setValue(this.getRecentEvents(account));
     }
@@ -83,13 +85,15 @@ public class AccountOverviewViewModel {
     }
 
     private MonetaryAmount getBalance(final Account account) {
+        final CurrencyUnit currency = account.getCurrency().orElse(MoneyHelper.DEFAULT_CURRENCY);
+        final Collection<Transaction> transactions = this.controller.getTransactions(account);
         final MonetaryAmount in = this.getTotal(
-                account.getCurrency(),
-                this.controller.getTransactions(account),
+                currency,
+                transactions,
                 transaction -> transaction.getSink().get().equals(account));
         final MonetaryAmount out = this.getTotal(
-                account.getCurrency(),
-                this.controller.getTransactions(account),
+                currency,
+                transactions,
                 transaction -> transaction.getSource().get().equals(account));
         return in.subtract(out);
     }

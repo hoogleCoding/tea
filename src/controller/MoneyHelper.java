@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
  * Created by Florian Hug <florian.hug@gmail.com> on 12/30/14.
  */
 public class MoneyHelper {
+    public static final CurrencyUnit DEFAULT_CURRENCY = MonetaryCurrencies.getCurrency("CHF");
     private static List<String> currencies;
 
     public static List<String> getCurrencies() {

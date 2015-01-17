@@ -1,6 +1,6 @@
 package config;
 
-import ViewModel.account.AccountEditViewModel;
+import viewmodel.account.AccountEditViewModel;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import controller.database.Database;

@@ -1,4 +1,4 @@
-package ViewModel.transaction;
+package viewmodel.transaction;
 
 import model.Transaction;
 

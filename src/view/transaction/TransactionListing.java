@@ -1,6 +1,6 @@
 package view.transaction;
 
-import ViewModel.transaction.TransactionEditViewModel;
+import viewmodel.transaction.TransactionEditViewModel;
 import com.cathive.fx.guice.FXMLController;
 import com.cathive.fx.guice.GuiceFXMLLoader;
 import controller.database.DatabaseController;
