@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.*?>
+<StackPane stylesheets="/style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="view.MainWindow">
+    <BorderPane prefHeight="200.0" prefWidth="200.0">
+        <bottom>
+            <Label fx:id="application_status" text="Fugger 0.1" BorderPane.alignment="BOTTOM_LEFT"/>
+        </bottom>
+        <center>
+            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE"
+                     BorderPane.alignment="CENTER">
+                <Tab fx:id="dashboardTab" closable="false" text="%MainWindow.Dashboard"/>
+                <Tab fx:id="accountsTab" closable="false" text="%MainWindow.Accounts"/>
+                <Tab fx:id="transactionTab" closable="false" text="%MainWindow.Transactions"/>
+            </TabPane>
+        </center>
+    </BorderPane>
+    <FlowPane id="overlay_pane" fx:id="overlayPane" alignment="CENTER" prefHeight="200.0" prefWidth="200.0"
+              visible="false"/>
+</StackPane>

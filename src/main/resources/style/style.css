@@ -1,0 +1,47 @@
+root {
+    display: block;
+}
+
+.form_header {
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+}
+
+.add_button {
+    -fx-font-weight: bold;
+}
+
+.save_button {
+    -fx-end-margin: 4;
+}
+
+.cancel_button {
+    -fx-start-margin: 4;
+}
+
+.error {
+    -fx-border-color: red;
+    -fx-border-style: solid;
+    -fx-border-width: 2;
+    -fx-border-radius: 2;
+}
+
+.errorMessage {
+    -fx-background-color: red;
+}
+
+#mainPanel {
+    -fx-start-margin: 4;
+}
+
+#overlay_pane {
+    -fx-background-color: rgba(64, 64, 64, 0.85);
+}
+
+.overlay {
+    -fx-background-color: #FFFFFF;
+}
+
+.errorIcon {
+    -fx-image: url("../icon/warning_24.png");
+}
