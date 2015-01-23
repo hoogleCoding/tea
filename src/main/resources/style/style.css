@@ -43,5 +43,5 @@ root {
 }
 
 .errorIcon {
-    -fx-image: url("../icon/warning_24.png");
+    -fx-image: url("../icon/warning_32.png");
 }

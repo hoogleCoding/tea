@@ -28,7 +28,7 @@ public class AccountEditView implements Initializable {
     @FXML
     private TextArea description;
     @FXML
-    private ComboBox<String> currency;
+    public ComboBox<String> currency;
     @FXML
     private Label currencyError;
     @FXML

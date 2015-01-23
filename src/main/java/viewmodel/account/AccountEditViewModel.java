@@ -113,7 +113,7 @@ public class AccountEditViewModel {
 
     private boolean validateCurrency() {
         final List<String> messages = new LinkedList<>();
-        final String value = this.getCurrencyProperty().getValue();
+        final String value = this.getCurrencyProperty().getValueSafe();
         if (value.isEmpty()) {
             messages.add(this.resources.getString("AccountEdit.Account_needs_currency"));
         } else if (
@@ -125,7 +125,7 @@ public class AccountEditViewModel {
                 messages.add(this.resources.getString("AccountEdit.Cannot_change_currency"));
             }
         }
-        this.currencyErrors.set(flattenMessages(messages));
+        this.getCurrencyErrors().set(flattenMessages(messages));
         return messages.isEmpty();
     }
 
@@ -136,7 +136,7 @@ public class AccountEditViewModel {
             messages.add(this.resources.getString("AccountEdit.Account_needs_name"));
         }
         //TODO: Check if account name exists in the database.
-        this.nameErrors.set(flattenMessages(messages));
+        this.getNameErrors().set(flattenMessages(messages));
         return messages.isEmpty();
     }
 
