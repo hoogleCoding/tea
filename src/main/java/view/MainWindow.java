@@ -21,6 +21,8 @@ import java.util.ResourceBundle;
 @Singleton
 public class MainWindow implements Initializable, OverlayProvider {
     @FXML
+    public Tab dashboardTab;
+    @FXML
     private FlowPane overlayPane;
     @Inject
     private GuiceFXMLLoader fxmlLoader;
@@ -35,16 +37,24 @@ public class MainWindow implements Initializable, OverlayProvider {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            this.dashboardTab
+                    .setContent(
+                            this.fxmlLoader
+                                    .load(getClass().getResource("dashboard/DashboardView.fxml"), this.resources)
+                                    .getRoot()
+                    );
             this.accountsTab
                     .setContent(
                             fxmlLoader
                                     .load(getClass().getResource("account/AccountListingView.fxml"), this.resources)
-                                    .getRoot());
+                                    .getRoot()
+                    );
             this.transactionTab
                     .setContent(
                             fxmlLoader
                                     .load(getClass().getResource("transaction/TransactionListingView.fxml"), this.resources)
-                                    .getRoot());
+                                    .getRoot()
+                    );
         } catch (IOException e) {
             //TODO: Log something
             e.printStackTrace();

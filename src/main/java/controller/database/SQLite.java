@@ -1,6 +1,7 @@
 package controller.database;
 
 import model.Account;
+import model.AccountGroup;
 import model.Transaction;
 import org.javamoney.moneta.RoundedMoney;
 
@@ -56,6 +57,8 @@ public class SQLite implements Database {
         try (final Statement statement = this.connection.createStatement()) {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS account (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, creation_date INT NOT NULL, description TEXT, currency TEXT NOT NULL)");
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS money_transaction (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, date INT NOT NULL, creation_date INT NOT NULL, monetary_amount TEXT NOT NULL, source INTEGER NOT NULL, sink INTEGER NOT NULL )");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS aggregate (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS account_aggregate (id INTEGER PRIMARY KEY AUTOINCREMENT, account INTEGER DEFAULT 0 NOT NULL, aggregate INTEGER DEFAULT 0 NOT NULL, FOREIGN KEY (account) REFERENCES account(id), FOREIGN KEY (aggregate) REFERENCES aggregate(id))");
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -238,5 +241,60 @@ public class SQLite implements Database {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public Optional<AccountGroup> create(final AccountGroup accountGroup) {
+        AccountGroup addedGroup = null;
+        final String query = "INSERT INTO aggregate (name) VALUES (?)";
+        try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
+            statement.setString(1, accountGroup.getName().get());
+            statement.executeUpdate();
+            final ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+            addedGroup = new AccountGroup(resultSet.getLong(1), accountGroup);
+            final AccountGroup finalAddedGroup = addedGroup;
+            accountGroup.getAccounts()
+                        .stream()
+                        .map(Account::getId)
+                        .map(Optional::get)
+                        .forEach(accountId -> this.saveAccountGroupToAccount(finalAddedGroup.getId().get(), accountId));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.ofNullable(addedGroup);
+    }
+
+    private void saveAccountGroupToAccount(final Long accountGroupId, final long accountId) {
+        final String query = "INSERT INTO account_aggregate (account, aggregate) VALUES (?, ?)";
+        try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
+            statement.setLong(1, accountId);
+            statement.setLong(2, accountGroupId);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Optional<AccountGroup> update(final AccountGroup accountGroup) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Collection<AccountGroup> getAccountGroups() {
+        final Collection<AccountGroup> groups = new LinkedList<>();
+        final String query = "SELECT * FROM aggregate";
+        try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
+            final ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                final Long id = resultSet.getLong("id");
+                final String name = resultSet.getString("name");
+                groups.add(new AccountGroup(id, name));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return groups;
     }
 }

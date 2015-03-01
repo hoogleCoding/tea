@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<GridPane prefWidth="400.0" styleClass="overlay" stylesheets="/style/style.css" xmlns="http://javafx.com/javafx/8"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.dashboard.DashboardEditView">
+    <columnConstraints>
+        <ColumnConstraints fillWidth="false" hgrow="NEVER" minWidth="10.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" vgrow="ALWAYS"/>
+        <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER"/>
+    </rowConstraints>
+    <padding>
+        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+    </padding>
+    <Label styleClass="form_header"  focusTraversable="false" text="Edit Dashboard" GridPane.columnSpan="2">
+        <GridPane.margin>
+            <Insets bottom="12.0" left="4.0" right="4.0" top="12.0"/>
+        </GridPane.margin>
+    </Label>
+    <Label focusTraversable="false" text="Group name" GridPane.rowIndex="1">
+        <padding>
+            <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+        </padding>
+    </Label>
+    <Label focusTraversable="false" text="Group members" GridPane.rowIndex="2" alignment="TOP_LEFT">
+        <padding>
+            <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+        </padding>
+    </Label>
+    <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <TextField fx:id="groupName" prefWidth="300.0" promptText="group Name">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </GridPane.margin>
+        </TextField>
+        <Label fx:id="groupError" focusTraversable="false" visible="false">
+            <graphic>
+                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true"
+                           styleClass="errorIcon"/>
+            </graphic>
+            <tooltip>
+                <Tooltip fx:id="groupErrorTooltip" styleClass="errorMessage"/>
+            </tooltip>
+            <HBox.margin>
+                <Insets bottom="1.0" left="1.0" right="1.0" top="1.0"/>
+            </HBox.margin>
+        </Label>
+    </HBox>
+    <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <ScrollPane prefViewportHeight="140.0" prefViewportWidth="252.0" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                    fitToHeight="true" fitToWidth="true">
+            <ListView prefWidth="300.0" fx:id="groupMembers"/>
+        </ScrollPane>
+        <Label fx:id="groupMemberError" focusTraversable="false" visible="false">
+            <graphic>
+                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true"
+                           styleClass="errorIcon"/>
+            </graphic>
+            <tooltip>
+                <Tooltip fx:id="groupMemberErrorTooltip" styleClass="errorMessage"/>
+            </tooltip>
+            <HBox.margin>
+                <Insets bottom="1.0" left="1.0" right="1.0" top="1.0"/>
+            </HBox.margin>
+        </Label>
+    </HBox>
+    <HBox spacing="4.0" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+        <Button mnemonicParsing="false" onAction="#save" styleClass="save_button" text="Save">
+            <HBox.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </HBox.margin>
+        </Button>
+        <Button mnemonicParsing="false" onAction="#cancel" styleClass="cancel_button" text="Cancel">
+            <HBox.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </HBox.margin>
+        </Button>
+        <GridPane.margin>
+            <Insets bottom="10.0" left="0" right="0" top="10.0"/>
+        </GridPane.margin>
+    </HBox>
+</GridPane>

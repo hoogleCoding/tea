@@ -4,7 +4,7 @@ root {
 
 .form_header {
     -fx-font-weight: bold;
-    -fx-font-size: 24;
+    -fx-font-size: 28;
 }
 
 .add_button {
@@ -20,14 +20,14 @@ root {
 }
 
 .error {
-    -fx-border-color: red;
+    -fx-border-color: rgba(187, 17, 0, 255);
     -fx-border-style: solid;
     -fx-border-width: 2;
     -fx-border-radius: 2;
 }
 
 .errorMessage {
-    -fx-background-color: red;
+    -fx-background-color: rgba(187, 17, 0, 255);
 }
 
 #mainPanel {
@@ -43,5 +43,5 @@ root {
 }
 
 .errorIcon {
-    -fx-image: url("../icon/warning_32.png");
+    -fx-image: url("../icon/error_24.png");
 }

@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="overlay"
           stylesheets="/style/style.css" xmlns="http://javafx.com/javafx/8"
@@ -12,19 +12,23 @@
         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER"/>
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
         <RowConstraints minHeight="10.0" vgrow="ALWAYS"/>
-        <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+        <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="50.0" vgrow="NEVER"/>
     </rowConstraints>
     <padding>
         <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
     </padding>
-    <Label styleClass="form_header" text="%AccountEdit.Account_information" GridPane.columnSpan="2"/>
+    <Label styleClass="form_header" text="%AccountEdit.Account_information" GridPane.columnSpan="2">
+        <GridPane.margin>
+            <Insets bottom="12.0" left="4.0" right="4.0" top="12.0"/>
+        </GridPane.margin>
+    </Label>
     <Label text="%AccountEdit.Name" GridPane.rowIndex="1">
         <GridPane.margin>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            <Insets bottom="12.0" left="2.0" right="2.0" top="12.0"/>
         </GridPane.margin>
         <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
@@ -59,9 +63,7 @@
         <Label fx:id="accountNameError" focusTraversable="false" visible="false">
             <graphic>
                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true"
-                           styleClass="errorIcon">
-                    <Image url="@/icon/warning_24.png"/>
-                </ImageView>
+                           styleClass="errorIcon"/>
             </graphic>
             <tooltip>
                 <Tooltip fx:id="accountNameErrorTooltip" styleClass="errorMessage"/>
@@ -75,9 +77,8 @@
         <ComboBox fx:id="currency" prefWidth="200.0"/>
         <Label fx:id="currencyError" focusTraversable="false" visible="false">
             <graphic>
-                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="/icon/warning_24.png"/>
-                </ImageView>
+                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true"
+                           styleClass="errorIcon"/>
             </graphic>
             <tooltip>
                 <Tooltip fx:id="currencyErrorTooltip" styleClass="errorMessage"/>
@@ -95,9 +96,8 @@
         </TextArea>
         <Label fx:id="descriptionError" focusTraversable="false" visible="false">
             <graphic>
-                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="/icon/warning_24.png"/>
-                </ImageView>
+                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true"
+                           styleClass="errorIcon"/>
             </graphic>
             <tooltip>
                 <Tooltip fx:id="descriptionErrorTooltip" styleClass="errorMessage"/>
@@ -127,5 +127,8 @@
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
             </HBox.margin>
         </Button>
+        <GridPane.margin>
+            <Insets bottom="10.0" left="0" right="0" top="10.0"/>
+        </GridPane.margin>
     </HBox>
 </GridPane>
