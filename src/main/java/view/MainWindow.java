@@ -40,7 +40,7 @@ public class MainWindow implements Initializable, OverlayProvider {
             this.dashboardTab
                     .setContent(
                             this.fxmlLoader
-                                    .load(getClass().getResource("dashboard/DashboardView.fxml"), this.resources)
+                                    .load(getClass().getResource("analysis/DashboardView.fxml"), this.resources)
                                     .getRoot()
                     );
             this.accountsTab

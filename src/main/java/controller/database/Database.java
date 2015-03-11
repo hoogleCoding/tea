@@ -1,7 +1,7 @@
 package controller.database;
 
 import model.Account;
-import model.AccountGroup;
+import model.Analysis;
 import model.Transaction;
 
 import java.util.Collection;
@@ -74,25 +74,25 @@ public interface Database {
     Transaction update(final Transaction transaction);
 
     /**
-     * Creates a {@link model.AccountGroup} in the database.
+     * Creates a {@link model.Analysis} in the database.
      *
-     * @param accountGroup The account group to create.
+     * @param analysis The account group to create.
      * @return The saved account group with its id set.
      */
-    Optional<AccountGroup> create(final AccountGroup accountGroup);
+    Optional<Analysis> create(final Analysis analysis);
 
     /**
-     * Updates a database record with the information from the {@link model.AccountGroup}.
+     * Updates a database record with the information from the {@link model.Analysis}.
      *
-     * @param accountGroup The account group to update in the database.
+     * @param analysis The account group to update in the database.
      * @return The updated account group.
      */
-    Optional<AccountGroup> update(final AccountGroup accountGroup);
+    Optional<Analysis> update(final Analysis analysis);
 
     /**
      * Gets all AccountGroups from the database.
      *
      * @return A collection with all AccountGroups form the database.
      */
-    Collection<AccountGroup> getAccountGroups();
+    Collection<Analysis> getAnalysis();
 }

@@ -42,7 +42,7 @@ public class ViewInitializer extends GuiceApplication {
         primaryStage.getIcons().add(new Image("icon/icon_48.png"));
         primaryStage.getIcons().add(new Image("icon/icon_64.png"));
         primaryStage.getIcons().add(new Image("icon/icon_96.png"));
-        primaryStage.initStyle(StageStyle.UTILITY);
+        primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }

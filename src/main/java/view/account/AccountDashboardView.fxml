@@ -3,8 +3,8 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"
+<?import javafx.scene.text.Font?>
+<VBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"
       xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" stylesheets="/style/style.css"
       fx:controller="view.account.AccountDashboardView">
     <padding>
@@ -12,8 +12,11 @@
     </padding>
     <Label fx:id="header" focusTraversable="false" styleClass="form_header" text="Label"
            textOverrun="WORD_ELLIPSIS" wrapText="true">
+        <font>
+            <Font name="System Bold" size="18.0"/>
+        </font>
         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            <Insets bottom="18.0" left="4.0" right="4.0" top="18.0"/>
         </padding>
     </Label>
     <HBox>
@@ -45,7 +48,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
         </padding>
     </Label>
-    <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
-        <ListView fx:id="eventList"/>
+    <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER" fitToHeight="true" VBox.vgrow="ALWAYS">
+        <ListView fx:id="eventList" VBox.vgrow="ALWAYS"/>
     </ScrollPane>
 </VBox>

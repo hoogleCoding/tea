@@ -53,6 +53,7 @@ public class TransactionListingViewModel {
         final List<Transaction> res = this.databaseController
                 .getTransactions()
                 .stream()
+                .sorted((one, two) -> two.getDate().orElse(0L).compareTo(one.getDate().orElse(0L)))
                 .collect(Collectors.toList());
         return FXCollections.observableList(res);
     }

@@ -1,6 +1,7 @@
 package model;
 
 import javax.money.CurrencyUnit;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -39,21 +40,16 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Account account = (Account) o;
+        final Account that = (Account) o;
 
-        if (creationTimestamp != null ? !creationTimestamp.equals(account.creationTimestamp) : account.creationTimestamp != null)
-            return false;
-        if (!id.equals(account.id)) return false;
-        return name.equals(account.name);
+        return Objects.equals(this.id, that.id) ||
+                (Objects.equals(this.name, that.name) && Objects.equals(this.creationTimestamp, that.creationTimestamp));
 
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + (creationTimestamp != null ? creationTimestamp.hashCode() : 0);
-        return result;
+        return Objects.hash(this.id, this.creationTimestamp, this.name);
     }
 
     public Optional<Long> getId() {

@@ -1,7 +1,7 @@
 package controller.database;
 
 import model.Account;
-import model.AccountGroup;
+import model.Analysis;
 import model.Transaction;
 import org.javamoney.moneta.RoundedMoney;
 
@@ -71,7 +71,7 @@ public class SQLite implements Database {
         final String query = "INSERT INTO account (name, description, creation_date, currency) VALUES (?, ?, ?, ?)";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
             statement.setString(1, account.getName().get());
-            statement.setString(2, account.getDescription().get());
+            statement.setString(2, account.getDescription().orElse(null));
             final Calendar calendar = Calendar.getInstance();
             final Timestamp timestamp = new Timestamp(calendar.getTime().getTime());
             statement.setTimestamp(3, timestamp);
@@ -244,32 +244,32 @@ public class SQLite implements Database {
     }
 
     @Override
-    public Optional<AccountGroup> create(final AccountGroup accountGroup) {
-        AccountGroup addedGroup = null;
+    public Optional<Analysis> create(final Analysis analysis) {
+        Analysis addedGroup = null;
         final String query = "INSERT INTO aggregate (name) VALUES (?)";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
-            statement.setString(1, accountGroup.getName().get());
+            statement.setString(1, analysis.getName().get());
             statement.executeUpdate();
             final ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
-            addedGroup = new AccountGroup(resultSet.getLong(1), accountGroup);
-            final AccountGroup finalAddedGroup = addedGroup;
-            accountGroup.getAccounts()
-                        .stream()
-                        .map(Account::getId)
-                        .map(Optional::get)
-                        .forEach(accountId -> this.saveAccountGroupToAccount(finalAddedGroup.getId().get(), accountId));
+            addedGroup = new Analysis(resultSet.getLong(1), analysis);
+            final Analysis finalAddedGroup = addedGroup;
+            analysis.getAccounts()
+                    .stream()
+                    .map(Account::getId)
+                    .map(Optional::get)
+                    .forEach(accountId -> this.saveAnalysisToAccount(finalAddedGroup.getId().get(), accountId));
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return Optional.ofNullable(addedGroup);
     }
 
-    private void saveAccountGroupToAccount(final Long accountGroupId, final long accountId) {
+    private void saveAnalysisToAccount(final Long analysisId, final long accountId) {
         final String query = "INSERT INTO account_aggregate (account, aggregate) VALUES (?, ?)";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
             statement.setLong(1, accountId);
-            statement.setLong(2, accountGroupId);
+            statement.setLong(2, analysisId);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -277,24 +277,64 @@ public class SQLite implements Database {
     }
 
     @Override
-    public Optional<AccountGroup> update(final AccountGroup accountGroup) {
-        return Optional.empty();
+    public Optional<Analysis> update(final Analysis analysis) {
+        final String query = "UPDATE aggregate SET name = ? WHERE id = ?";
+        try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
+            statement.setString(1, analysis.getName().orElse("Missing"));
+            statement.setLong(2, analysis.getId().orElseThrow(IllegalArgumentException::new));
+            statement.executeUpdate();
+            this.deleteAccountsInAnalysis(analysis.getId().orElseThrow(IllegalArgumentException::new));
+            analysis.getAccounts()
+                    .stream()
+                    .forEach(
+                            account -> this.saveAnalysisToAccount(
+                                    analysis.getId().get(),
+                                    account.getId().orElseThrow(IllegalArgumentException::new)));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.of(analysis);
     }
 
     @Override
-    public Collection<AccountGroup> getAccountGroups() {
-        final Collection<AccountGroup> groups = new LinkedList<>();
+    public Collection<Analysis> getAnalysis() {
+        final Collection<Analysis> groups = new LinkedList<>();
         final String query = "SELECT * FROM aggregate";
         try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                final Long id = resultSet.getLong("id");
+                final long id = resultSet.getLong("id");
                 final String name = resultSet.getString("name");
-                groups.add(new AccountGroup(id, name));
+                groups.add(new Analysis(id, name, this.getAccountsInAnalysis(id)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return groups;
+    }
+
+    private Collection<Account> getAccountsInAnalysis(final long analysisId) {
+        final Collection<Account> accounts = new LinkedList<>();
+        final String query = "SELECT account FROM account_aggregate WHERE aggregate = ?";
+        try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
+            statement.setLong(1, analysisId);
+            final ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                this.getAccount(resultSet.getLong("account")).ifPresent(accounts::add);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return accounts;
+    }
+
+    private void deleteAccountsInAnalysis(final long analysisId) {
+        final String query = "DELETE FROM account_aggregate WHERE aggregate = ?";
+        try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
+            statement.setLong(1, analysisId);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

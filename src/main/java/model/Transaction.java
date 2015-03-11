@@ -66,6 +66,25 @@ public class Transaction {
         this.amount = amount;
     }
 
+    /**
+     * Gets the amount in respect of the account. If the account is the sink of the transaction the amount is positive.
+     * If the account is the source the amount will be negative.
+     *
+     * @param account The account to consider.
+     * @return A positive amount if the account is the source, negative if it's the sink, empty otherwise.
+     */
+    public Optional<MonetaryAmount> getAmount(final Account account) {
+        final Optional<MonetaryAmount> amount;
+        if (this.getSink().isPresent() && this.getSink().get().equals(account)) {
+            amount = this.getAmount();
+        } else if (this.getSource().isPresent() && this.getSource().get().equals(account)) {
+            amount = this.getAmount().map(MonetaryAmount::negate);
+        } else {
+            amount = Optional.empty();
+        }
+        return amount;
+    }
+
     public Optional<Account> getSource() {
         return Optional.ofNullable(source);
     }

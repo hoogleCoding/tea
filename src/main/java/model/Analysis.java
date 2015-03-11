@@ -1,7 +1,5 @@
 package model;
 
-import view.account.AccountListView;
-
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Optional;
@@ -9,28 +7,28 @@ import java.util.Optional;
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 2/10/15.
  */
-public class AccountGroup {
+public final class Analysis {
 
     private final String name;
     private final Long id;
     private final Collection<Account> accounts;
 
-    public AccountGroup(final String name) {
+    public Analysis(final String name) {
         this.id = null;
         this.name = name;
         this.accounts = new LinkedList<>();
     }
 
-    public AccountGroup(final long id, final AccountGroup accountGroup) {
+    public Analysis(final long id, final Analysis analysis) {
         this.id = id;
-        this.name = accountGroup.name;
+        this.name = analysis.name;
         this.accounts = new LinkedList<>();
     }
 
-    public AccountGroup(final Long id, final String name) {
+    public Analysis(final Long id, final String name, final Collection<Account> accounts) {
         this.id = id;
         this.name = name;
-        this.accounts = new LinkedList<>();
+        this.accounts = accounts;
     }
 
     public Optional<String> getName() {
@@ -41,8 +39,8 @@ public class AccountGroup {
         return Optional.ofNullable(this.id);
     }
 
-    public void addAccount(final AccountListView accountListView) {
-        this.accounts.add(accountListView.account);
+    public void addAccount(final Account account) {
+        this.accounts.add(account);
     }
 
     public Collection<Account> getAccounts() {

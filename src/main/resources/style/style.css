@@ -45,3 +45,11 @@ root {
 .errorIcon {
     -fx-image: url("../icon/error_24.png");
 }
+
+.missingContent {
+    -fx-font-size: 20px;
+    -fx-text-fill: dimgrey;
+}
+
+.chart-pie {
+}

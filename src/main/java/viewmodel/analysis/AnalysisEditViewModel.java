@@ -1,4 +1,4 @@
-package viewmodel.dashboard;
+package viewmodel.analysis;
 
 import controller.ListSelectionModel;
 import controller.database.DatabaseController;
@@ -6,8 +6,8 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.MultipleSelectionModel;
-import model.AccountGroup;
-import view.account.AccountListView;
+import model.Account;
+import model.Analysis;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,18 +19,19 @@ import static viewmodel.ViewModelUtils.flattenMessages;
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 2/1/15.
  */
-public class DashboardEditViewModel {
+public final class AnalysisEditViewModel {
     private final DatabaseController controller;
     private final ResourceBundle resources;
     private StringProperty groupNameProperty;
     private StringProperty groupMemberErrors;
     private StringProperty groupNameErrors;
-    private ListProperty<AccountListView> accountsProperty;
-    private Property<MultipleSelectionModel<AccountListView>> accountSelectionProperty;
+    private ListProperty<Account> accountsProperty;
+    private Property<MultipleSelectionModel<Account>> accountSelectionProperty;
+    private Analysis analysis;
 
     @Inject
-    public DashboardEditViewModel(final DatabaseController controller,
-                                  @Named("i18n-resources") final ResourceBundle resourceBundle) {
+    public AnalysisEditViewModel(final DatabaseController controller,
+                                 @Named("i18n-resources") final ResourceBundle resourceBundle) {
         this.controller = controller;
         this.resources = resourceBundle;
     }
@@ -42,26 +43,24 @@ public class DashboardEditViewModel {
         return this.groupNameProperty;
     }
 
-    public ListProperty<AccountListView> getAccountsProperty() {
+    public ListProperty<Account> getAccountsProperty() {
         if (this.accountsProperty == null) {
             this.accountsProperty = new SimpleListProperty<>();
-            final List<AccountListView> accounts = this.controller
+            final List<Account> accounts = this.controller
                     .getAccounts()
                     .stream()
-                    .map(AccountListView::new)
                     .collect(Collectors.toList());
             this.accountsProperty.setValue(FXCollections.observableList(accounts));
         }
         return this.accountsProperty;
     }
 
-    public Property<MultipleSelectionModel<AccountListView>> getAccountSelectionProperty() {
+    public Property<MultipleSelectionModel<Account>> getAccountSelectionProperty() {
         if (this.accountSelectionProperty == null) {
-            List<AccountListView> items = this.controller.getAccounts()
+            List<Account> items = this.controller.getAccounts()
                     .stream()
-                    .map(AccountListView::new)
                     .collect(Collectors.toList());
-            final ListSelectionModel<AccountListView> selectionModel = new ListSelectionModel<>(new ArrayList<>(items));
+            final ListSelectionModel<Account> selectionModel = new ListSelectionModel<>(new ArrayList<>(items));
 
             this.accountSelectionProperty = new SimpleObjectProperty<>(selectionModel);
         }
@@ -92,19 +91,21 @@ public class DashboardEditViewModel {
         return isValid;
     }
 
-    private Optional<AccountGroup> synchronizeModel() {
-        Optional<AccountGroup> group = Optional.empty();
+    private Optional<Analysis> synchronizeModel() {
+        Optional<Analysis> group = Optional.empty();
         if (this.groupNameProperty.getValueSafe() != null) {
-            final AccountGroup accountGroup = new AccountGroup(this.groupNameProperty.getValueSafe());
-            this.getAccountSelectionProperty().getValue().getSelectedItems().stream().forEach(accountGroup::addAccount);
-            group = Optional.of(accountGroup);
+            final Analysis analysis = new Analysis(
+                    this.analysis.getId().orElse(null),
+                    this.groupNameProperty.getValueSafe(),
+                    this.getAccountSelectionProperty().getValue().getSelectedItems());
+            group = Optional.of(analysis);
         }
         return group;
     }
 
     private boolean validate() {
         final boolean validName = this.validateName();
-        final boolean validMembers = this.validateAggregateMembers();
+        final boolean validMembers = this.validateAnalysisMembers();
         return validName && validMembers;
     }
 
@@ -118,13 +119,19 @@ public class DashboardEditViewModel {
         return messages.isEmpty();
     }
 
-    private boolean validateAggregateMembers() {
+    private boolean validateAnalysisMembers() {
         final List<String> messages = new LinkedList<>();
-        final ObservableList<AccountListView> selected = this.getAccountSelectionProperty().getValue().getSelectedItems();
+        final ObservableList<Account> selected = this.getAccountSelectionProperty().getValue().getSelectedItems();
         if (selected.isEmpty()) {
             messages.add("The group needs accounts to analyze");
         }
         this.getGroupMemberErrors().setValue(flattenMessages(messages));
         return messages.isEmpty();
+    }
+
+    public void setAnalysis(final Analysis analysis) {
+        this.analysis = analysis;
+        analysis.getName().ifPresent(this.getGroupNameProperty()::setValue);
+        analysis.getAccounts().forEach(account -> this.getAccountSelectionProperty().getValue().select(account));
     }
 }

@@ -1,7 +1,7 @@
 package controller.database;
 
 import model.Account;
-import model.AccountGroup;
+import model.Analysis;
 import model.Transaction;
 
 import javax.inject.Inject;
@@ -21,14 +21,14 @@ public class DatabaseController {
     private final Database database;
     private final Collection<Consumer<Account>> accountListeners;
     private final Collection<Consumer<Transaction>> transactionListeners;
-    private final Collection<Consumer<AccountGroup>> accountGroupListeners;
+    private final Collection<Consumer<Analysis>> analysisListeners;
 
     @Inject
     public DatabaseController(final Database database) {
         this.database = database;
         this.accountListeners = new LinkedList<>();
         this.transactionListeners = new LinkedList<>();
-        this.accountGroupListeners = new LinkedList<>();
+        this.analysisListeners = new LinkedList<>();
     }
 
     public Collection<Account> getAccounts() {
@@ -59,8 +59,8 @@ public class DatabaseController {
         this.transactionListeners.add(consumer);
     }
 
-    public void addAccountGroupListener(final Consumer<AccountGroup> consumer) {
-        this.accountGroupListeners.add(consumer);
+    public void addAnalysisChangeListener(final Consumer<Analysis> consumer) {
+        this.analysisListeners.add(consumer);
     }
 
     public Collection<Transaction> getTransactions() {
@@ -96,23 +96,23 @@ public class DatabaseController {
         return result;
     }
 
-    public Collection<AccountGroup> getAccountGroups(){
-        return this.database.getAccountGroups();
+    public Collection<Analysis> getAccountGroups(){
+        return this.database.getAnalysis();
     }
 
     /**
-     * Saves a {@link model.AccountGroup} in the database. If the group does not exist it will be created. Otherwise the
+     * Saves a {@link model.Analysis} in the database. If the group does not exist it will be created. Otherwise the
      * existing database entry will be overwritten.
      *
-     * @param accountGroup The account group to save
+     * @param analysis The account group to save
      * @return The saved account group with updated id.
      */
-    public Optional<AccountGroup> save(final AccountGroup accountGroup) {
-        final Optional<AccountGroup> addedGroup = accountGroup
+    public Optional<Analysis> save(final Analysis analysis) {
+        final Optional<Analysis> addedGroup = analysis
                 .getId()
-                .map(i -> this.database.update(accountGroup))
-                .orElseGet(() -> this.database.create(accountGroup));
-        addedGroup.ifPresent(group -> this.accountGroupListeners.forEach(listener -> listener.accept(group)));
+                .map(i -> this.database.update(analysis))
+                .orElseGet(() -> this.database.create(analysis));
+        addedGroup.ifPresent(group -> this.analysisListeners.forEach(listener -> listener.accept(group)));
         return addedGroup;
     }
 }

@@ -1,6 +1,5 @@
 package config;
 
-import viewmodel.account.AccountEditViewModel;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import controller.database.Database;
@@ -9,6 +8,7 @@ import controller.database.SQLite;
 import controller.layout.OverlayProvider;
 import view.MainWindow;
 import view.transaction.TransactionEditView;
+import viewmodel.account.AccountEditViewModel;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
