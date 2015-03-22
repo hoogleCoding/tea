@@ -53,3 +53,7 @@ root {
 
 .chart-pie {
 }
+
+.dateSpinnerLabel {
+    -fx-font-size: 20;
+}

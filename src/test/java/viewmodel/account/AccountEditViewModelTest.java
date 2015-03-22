@@ -1,58 +1,49 @@
 package viewmodel.account;
 
-import controller.database.DatabaseController;
+import com.google.inject.Guice;
+import config.InjectorConfig;
 import model.Account;
-import model.Transaction;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import javax.money.MonetaryCurrencies;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.io.File;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
+/**
+ * Created by Florian Hug <florian.hug@gmail.com> on 3/11/15.
+ */
 public class AccountEditViewModelTest {
-
-    private final ResourceBundle resourceBundle;
-    private AccountEditViewModel accountEditViewModel;
-    private DatabaseController databaseController;
-    private Account account;
-
-    public AccountEditViewModelTest() {
-        this.resourceBundle = ResourceBundle.getBundle("fugger", Locale.forLanguageTag("en"));
-    }
+    private AccountEditViewModel viewModel;
+    private File tempDB;
 
     @Before
-    public void setUp() {
-        this.account = new Account(1L, "test");
-        this.account.setCurrency(MonetaryCurrencies.getCurrency("CHF"));
-        this.databaseController = mock(DatabaseController.class);
-        this.accountEditViewModel = new AccountEditViewModel(this.databaseController, this.resourceBundle);
-        this.accountEditViewModel.setAccount(this.account);
+    public void setUp() throws Exception {
+        final InjectorConfig config = new InjectorConfig();
+        this.tempDB = File.createTempFile("fugger", "db");
+        config.setDataBasePath(tempDB);
+        this.viewModel = Guice.createInjector(config).getInstance(AccountEditViewModel.class);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        this.tempDB.delete();
     }
 
     @Test
-    public void itShouldAllowCurrencyChangeOnAccountsWithNoTransactions() {
-        when(this.databaseController.getTransactions(this.account)).thenReturn(Collections.emptyList());
-        this.accountEditViewModel.getNameProperty().setValue(this.account.getName().get());
-        this.accountEditViewModel.getCurrencyProperty().setValue("BTC");
-        assertTrue(
-                "Changing the currency of an account which has no transactions is permitted",
-                this.accountEditViewModel.validate());
+    public void itShouldSaveNewAccounts() throws Exception {
+        this.viewModel.setAccount(new Account());
+        this.viewModel.getNameProperty().setValue("TestAccount");
+        this.viewModel.getCurrencyProperty().setValue("CHF");
+        assertTrue("It should return true on a correct save", this.viewModel.save());
     }
 
     @Test
-    public void itShouldNotAllowCurrencyChangeIfAccountHasTransactions() {
-        when(this.databaseController.getTransactions(this.account)).thenReturn(Collections.singleton(mock(Transaction.class)));
-        this.accountEditViewModel.getNameProperty().setValue(this.account.getName().get());
-        this.accountEditViewModel.getCurrencyProperty().setValue("BTC");
-        assertFalse(
-                "Changing the currency of an account which has transactions is not permitted",
-                this.accountEditViewModel.validate());
+    public void itShouldNotSaveInvalidAccounts() throws Exception{
+        //TODO: implement this
+        assertFalse(true);
     }
 }

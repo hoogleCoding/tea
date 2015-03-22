@@ -2,10 +2,7 @@ package viewmodel.analysis;
 
 import controller.MoneyHelper;
 import controller.database.DatabaseController;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
@@ -15,6 +12,7 @@ import org.javamoney.moneta.FastMoney;
 
 import javax.inject.Inject;
 import javax.money.MonetaryAmount;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,6 +25,7 @@ public final class AnalysisViewModel {
     private StringProperty analysisName;
     private ListProperty<PieChart.Data> chartData;
     private Analysis analysis;
+    private Property<LocalDate> analysisDate;
 
     @Inject
     public AnalysisViewModel(final DatabaseController databaseController) {
@@ -81,5 +80,12 @@ public final class AnalysisViewModel {
             this.chartData = new SimpleListProperty<>();
         }
         return this.chartData;
+    }
+
+    public Property<LocalDate> getAnalysisDateProperty() {
+        if (this.analysisDate == null) {
+            this.analysisDate = new SimpleObjectProperty<>(LocalDate.now());
+        }
+        return this.analysisDate;
     }
 }

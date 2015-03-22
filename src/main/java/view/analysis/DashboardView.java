@@ -39,6 +39,11 @@ public class DashboardView implements Initializable {
         this.analysisPreview.itemsProperty().bind(this.viewModel.getAnalysesProperty());
         this.analysisPreview.setCellFactory(callback -> new AnalysisPreviewItem(this.resources));
         this.currentAnalysis.getChildren().add(this.viewModel.getCurrentAnalysis());
+        try {
+            final Analysis defaultAnalysis = this.viewModel.getAnalysesProperty().get(0);
+            this.viewModel.setSelectedAnalysis(defaultAnalysis);
+        } catch (IndexOutOfBoundsException ignored) {
+        }
     }
 
     @FXML

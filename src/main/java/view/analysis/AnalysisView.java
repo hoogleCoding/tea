@@ -1,6 +1,7 @@
 package view.analysis;
 
 import com.cathive.fx.guice.FXMLController;
+import control.DateSpinner;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
@@ -22,6 +23,8 @@ public class AnalysisView implements Initializable {
     public Label analysisName;
     @FXML
     public PieChart pieChart;
+    @FXML
+    public DateSpinner dateSpinner;
     @Inject
     private AnalysisViewModel viewModel;
 
@@ -43,5 +46,6 @@ public class AnalysisView implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.analysisName.textProperty().bind(this.viewModel.getAnalysisNameProperty());
         this.pieChart.dataProperty().bind(this.viewModel.getChartDataProperty());
+        this.dateSpinner.getDateProperty().bindBidirectional(this.viewModel.getAnalysisDateProperty());
     }
 }

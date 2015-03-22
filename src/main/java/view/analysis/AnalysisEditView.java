@@ -39,7 +39,7 @@ public class AnalysisEditView implements Initializable {
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
-        this.groupName.textProperty().bindBidirectional(this.viewModel.getGroupNameProperty());
+        this.groupName.textProperty().bindBidirectional(this.viewModel.getAnalysisTitleProperty());
         this.groupErrorTooltip.textProperty().bind(this.viewModel.getGroupNameErrors());
         this.groupError.visibleProperty().bind(this.viewModel.getGroupNameErrors().isNotEmpty());
         this.groupMembers.setCellFactory(a -> new AccountListCell());

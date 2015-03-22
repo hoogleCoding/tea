@@ -6,7 +6,7 @@ import view.ViewInitializer;
 class Main {
 
     public static void main(String... args) {
-        ViewInitializer initializer = new ViewInitializer();
+        final ViewInitializer initializer = new ViewInitializer();
         initializer.run(args);
     }
 }

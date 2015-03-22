@@ -22,7 +22,7 @@ import static viewmodel.ViewModelUtils.flattenMessages;
 public final class AnalysisEditViewModel {
     private final DatabaseController controller;
     private final ResourceBundle resources;
-    private StringProperty groupNameProperty;
+    private StringProperty analysisTitleProperty;
     private StringProperty groupMemberErrors;
     private StringProperty groupNameErrors;
     private ListProperty<Account> accountsProperty;
@@ -36,11 +36,11 @@ public final class AnalysisEditViewModel {
         this.resources = resourceBundle;
     }
 
-    public StringProperty getGroupNameProperty() {
-        if (this.groupNameProperty == null) {
-            this.groupNameProperty = new SimpleStringProperty();
+    public StringProperty getAnalysisTitleProperty() {
+        if (this.analysisTitleProperty == null) {
+            this.analysisTitleProperty = new SimpleStringProperty();
         }
-        return this.groupNameProperty;
+        return this.analysisTitleProperty;
     }
 
     public ListProperty<Account> getAccountsProperty() {
@@ -93,10 +93,10 @@ public final class AnalysisEditViewModel {
 
     private Optional<Analysis> synchronizeModel() {
         Optional<Analysis> group = Optional.empty();
-        if (this.groupNameProperty.getValueSafe() != null) {
+        if (this.analysisTitleProperty.getValueSafe() != null) {
             final Analysis analysis = new Analysis(
                     this.analysis.getId().orElse(null),
-                    this.groupNameProperty.getValueSafe(),
+                    this.analysisTitleProperty.getValueSafe(),
                     this.getAccountSelectionProperty().getValue().getSelectedItems());
             group = Optional.of(analysis);
         }
@@ -111,7 +111,7 @@ public final class AnalysisEditViewModel {
 
     private boolean validateName() {
         final List<String> messages = new LinkedList<>();
-        final String value = this.getGroupNameProperty().getValueSafe();
+        final String value = this.getAnalysisTitleProperty().getValueSafe();
         if (value.isEmpty()) {
             messages.add(this.resources.getString("DashboardEdit.Needs_name"));
         }
@@ -131,7 +131,7 @@ public final class AnalysisEditViewModel {
 
     public void setAnalysis(final Analysis analysis) {
         this.analysis = analysis;
-        analysis.getName().ifPresent(this.getGroupNameProperty()::setValue);
+        analysis.getName().ifPresent(this.getAnalysisTitleProperty()::setValue);
         analysis.getAccounts().forEach(account -> this.getAccountSelectionProperty().getValue().select(account));
     }
 }

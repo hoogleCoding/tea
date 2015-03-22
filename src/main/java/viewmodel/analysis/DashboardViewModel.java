@@ -27,7 +27,7 @@ public class DashboardViewModel {
     private final ResourceBundle resources;
     private final GuiceFXMLLoader fxmlLoader;
     private final DatabaseController databaseController;
-    private ListProperty<Analysis> groupsProperty;
+    private ListProperty<Analysis> analysesProperty;
     private AnalysisView analysisController;
 
     @Inject
@@ -45,11 +45,11 @@ public class DashboardViewModel {
     }
 
     public ListProperty<Analysis> getAnalysesProperty() {
-        if (this.groupsProperty == null) {
-            this.groupsProperty = new SimpleListProperty<>();
-            this.groupsProperty.setValue(this.getAnalyses());
+        if (this.analysesProperty == null) {
+            this.analysesProperty = new SimpleListProperty<>();
+            this.analysesProperty.setValue(this.getAnalyses());
         }
-        return this.groupsProperty;
+        return this.analysesProperty;
     }
 
     private ObservableList<Analysis> getAnalyses() {

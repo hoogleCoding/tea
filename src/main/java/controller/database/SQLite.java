@@ -5,8 +5,11 @@ import model.Analysis;
 import model.Transaction;
 import org.javamoney.moneta.RoundedMoney;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.money.MonetaryAmount;
 import javax.money.MonetaryCurrencies;
+import java.io.File;
 import java.sql.*;
 import java.util.Calendar;
 import java.util.Collection;
@@ -21,12 +24,12 @@ public class SQLite implements Database {
     private Connection connection;
     private String databaseUrl;
 
-    public SQLite() throws ClassNotFoundException {
+    @Inject
+    public SQLite(@Named("database-path") final File dataBasePath) throws ClassNotFoundException {
         String sDriverName = "org.sqlite.JDBC";
         Class.forName(sDriverName);
-        String databaseName = "fugger.db";
         String jdbc = "jdbc:sqlite";
-        databaseUrl = String.format("%s:%s", jdbc, databaseName);
+        databaseUrl = String.format("%s:%s", jdbc, dataBasePath.getAbsolutePath());
     }
 
     private Connection getConnection() {
