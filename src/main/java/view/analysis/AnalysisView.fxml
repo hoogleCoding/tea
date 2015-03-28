@@ -23,23 +23,6 @@
     <center>
         <VBox fillWidth="true">
             <DateSpinner fx:id="dateSpinner" alignment="TOP_CENTER"/>
-            <!--            <HBox alignment="TOP_CENTER">
-                            <Button text="&lt;" alignment="CENTER_LEFT">
-                                <HBox.margin>
-                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                                </HBox.margin>
-                            </Button>
-                            <Label text="March 2015" alignment="CENTER">
-                                <HBox.margin>
-                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                                </HBox.margin>
-                            </Label>
-                            <Button text="&gt;" alignment="CENTER_RIGHT">
-                                <HBox.margin>
-                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-                                </HBox.margin>
-                            </Button>
-                        </HBox>-->
             <PieChart BorderPane.alignment="CENTER" fx:id="pieChart" VBox.vgrow="ALWAYS"/>
         </VBox>
     </center>

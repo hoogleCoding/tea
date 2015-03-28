@@ -19,7 +19,7 @@ import java.util.Optional;
 /**
  * Created by Florian Hug <florian.hug@gmail.com> on 10/26/14.
  */
-public class SQLite implements Database {
+public final class SQLite implements Database {
 
     private Connection connection;
     private String databaseUrl;
@@ -196,6 +196,46 @@ public class SQLite implements Database {
                 }
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return transactions;
+    }
+
+    /**
+     * Returns all transactions between the startTimestamp and endTimestamp which are associated to an account.
+     *
+     * @param accountId      The accountId of the account
+     * @param startTimestamp The start timestamp.
+     * @param endTimeStamp   The end timestamp.
+     * @return All transactions which matched the criteria or an empty collection if none were found.
+     */
+    @Override
+    public Collection<? extends Transaction> getTransactionsForAccount(
+            final Long accountId,
+            long startTimestamp,
+            long endTimeStamp) {
+        final Collection<Transaction> transactions = new LinkedList<>();
+        final String query = "SELECT * FROM money_transaction WHERE source = ? OR sink = ? AND date BETWEEN ? AND ?";
+        try (final PreparedStatement statement = this.getConnection().prepareStatement(query)) {
+            statement.setLong(1, accountId);
+            statement.setLong(2, accountId);
+            statement.setLong(3, startTimestamp);
+            statement.setLong(4, endTimeStamp);
+            final ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                final Long id = result.getLong("id");
+                final String name = result.getString("name");
+                final Optional<Account> source = this.getAccount(result.getLong("source"));
+                final Optional<Account> sink = this.getAccount(result.getLong("sink"));
+                final MonetaryAmount money_amount = RoundedMoney.parse(result.getString("monetary_amount"));
+                final Long date = result.getLong("date");
+                if (source.isPresent() && sink.isPresent()) {
+                    final Transaction transaction = new Transaction(id, name, date, source.get(), sink.get(), money_amount);
+                    transactions.add(transaction);
+                }
+            }
+        } catch (SQLException e) {
+            //TODO: log
             e.printStackTrace();
         }
         return transactions;

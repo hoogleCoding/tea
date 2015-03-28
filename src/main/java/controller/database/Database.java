@@ -58,6 +58,16 @@ public interface Database {
     Collection<? extends Transaction> getTransactionsForAccount(final Long accountId);
 
     /**
+     * Returns all transactions between the startTimestamp and endTimestamp which are associated to an account.
+     *
+     * @param id             The id of the account
+     * @param startTimestamp The start timestamp.
+     * @param endTimeStamp   The end timestamp.
+     * @return All transactions which matched the criteria or an empty collection if none were found.
+     */
+    Collection<? extends Transaction> getTransactionsForAccount(Long id, long startTimestamp, long endTimeStamp);
+
+    /**
      * Creates a {@link model.Transaction} in the database.
      *
      * @param transaction The {@link model.Transaction} to create.
@@ -95,4 +105,5 @@ public interface Database {
      * @return A collection with all AccountGroups form the database.
      */
     Collection<Analysis> getAnalysis();
+
 }

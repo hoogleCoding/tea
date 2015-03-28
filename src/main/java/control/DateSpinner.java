@@ -105,6 +105,11 @@ public class DateSpinner extends HBox implements Initializable {
     @FXML
     private void dateLabelClicked(final MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() >= 2) {
+            if (this.getDate().isBefore(LocalDate.now())) {
+                this.moveForwardAnimation.play();
+            } else {
+                this.moveBackAnimation.play();
+            }
             this.setDate(LocalDate.now());
         }
     }

@@ -6,6 +6,7 @@ import model.Transaction;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -80,6 +81,15 @@ public class DatabaseController {
         return result;
     }
 
+    public Collection<Transaction> getTransactions(
+            final Account account,
+            final LocalDate startDate,
+            final LocalDate endDate) {
+        final List<Transaction> result = new LinkedList<>();
+        account.getId().ifPresent(id -> result.addAll(this.database.getTransactionsForAccount(id, startDate.toEpochDay(), endDate.toEpochDay())));
+        return result;
+    }
+
     /**
      * Saves a {@link model.Transaction} in the database if the {@link model.Transaction} does not exist it will be
      * created otherwise the existing data will be overwritten.
@@ -96,7 +106,7 @@ public class DatabaseController {
         return result;
     }
 
-    public Collection<Analysis> getAccountGroups(){
+    public Collection<Analysis> getAccountGroups() {
         return this.database.getAnalysis();
     }
 

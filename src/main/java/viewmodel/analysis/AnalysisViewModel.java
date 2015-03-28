@@ -44,7 +44,7 @@ public final class AnalysisViewModel {
     private void updateChartData() {
         List<PieChart.Data> data = this.analysis.getAccounts()
                 .stream()
-                .map(account -> new PieChart.Data(account.getName().orElse("N/A"), this.getAccountBalance(account)))
+                .map(account -> new PieChart.Data(account.getName().orElse("N/A"), this.getAccountBalance(account, this.analysisDate.getValue())))
                 .collect(Collectors.toList());
 
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(data);
@@ -55,9 +55,20 @@ public final class AnalysisViewModel {
         this.analysis.getName().ifPresent(this.getAnalysisNameProperty()::setValue);
     }
 
-    private double getAccountBalance(final Account account) {
+    /**
+     * Gets the balance of an account of a month and year. Albeit a date is given this method uses just the month and
+     * year part of it. All transactions concerning the account from the first until and including the last day of the
+     * month are taken into account.
+     *
+     * @param account The account to get the balance of.
+     * @param date    The date to get the balance of. This uses just the month and year part of the date.
+     * @return The account's balance during the specified month.
+     */
+    private double getAccountBalance(final Account account, final LocalDate date) {
+        final LocalDate startDay = date.withDayOfMonth(1);
+        final LocalDate endDay = startDay.plusMonths(1);
         final MonetaryAmount sum = this.databaseController
-                .getTransactions(account)
+                .getTransactions(account, startDay, endDay)
                 .stream()
                 .map(transaction -> transaction.getAmount(account))
                 .filter(Optional::isPresent)
@@ -85,6 +96,7 @@ public final class AnalysisViewModel {
     public Property<LocalDate> getAnalysisDateProperty() {
         if (this.analysisDate == null) {
             this.analysisDate = new SimpleObjectProperty<>(LocalDate.now());
+            this.analysisDate.addListener(event -> this.updateChartData());
         }
         return this.analysisDate;
     }
