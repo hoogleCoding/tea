@@ -34,7 +34,7 @@ public class DateSpinner extends HBox implements Initializable {
     private Property<LocalDate> dateProperty;
 
     public DateSpinner() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DateSpinner.fxml"));
+        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DateSpinner.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

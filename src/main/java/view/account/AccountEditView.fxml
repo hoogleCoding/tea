@@ -1,138 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import control.FloatingForm?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="overlay"
-          stylesheets="/style/style.css" xmlns="http://javafx.com/javafx/8"
-          xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.account.AccountEditView">
-    <columnConstraints>
-        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="100.0"/>
-        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER"/>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
-        <RowConstraints minHeight="10.0" vgrow="ALWAYS"/>
-        <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="50.0" vgrow="NEVER"/>
-    </rowConstraints>
-    <padding>
-        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
-    </padding>
-    <Label styleClass="form_header" text="%AccountEdit.Account_information" GridPane.columnSpan="2">
-        <font>
-            <Font name="System Bold" size="18.0"/>
-        </font>
+<FloatingForm xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+              fx:controller="view.account.AccountEditView" header="%AccountEdit.Account_information">
+    <GridPane VBox.vgrow="ALWAYS">
         <padding>
-            <Insets bottom="18.0" left="4.0" right="4.0" top="18.0"/>
+            <Insets bottom="18.0" top="0.0" left="18.0" right="18.0"/>
         </padding>
-    </Label>
-    <Label text="%AccountEdit.Name" GridPane.rowIndex="1">
-        <GridPane.margin>
-            <Insets bottom="12.0" left="2.0" right="2.0" top="12.0"/>
-        </GridPane.margin>
-        <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-        </padding>
-    </Label>
-    <Label text="%AccountEdit.Currency" GridPane.rowIndex="2">
-        <GridPane.margin>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-        </GridPane.margin>
-        <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-        </padding>
-    </Label>
-    <Label text="%AccountEdit.Description" GridPane.hgrow="NEVER" GridPane.rowIndex="3" GridPane.valignment="TOP">
-        <GridPane.margin>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-        </GridPane.margin>
-        <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-        </padding>
-    </Label>
-    <HBox spacing="4.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1"
-          GridPane.vgrow="NEVER">
-        <GridPane.margin>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-        </GridPane.margin>
-        <TextField fx:id="accountName" prefWidth="200.0" promptText="%AccountEdit.Account_name">
+        <columnConstraints>
+            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="100.0"/>
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+            <RowConstraints minHeight="10.0" vgrow="ALWAYS"/>
+            <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="50.0" vgrow="NEVER"/>
+        </rowConstraints>
+        <Label text="%AccountEdit.Name" GridPane.rowIndex="0">
+            <GridPane.margin>
+                <Insets bottom="12.0" left="2.0" right="2.0" top="12.0"/>
+            </GridPane.margin>
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </padding>
-        </TextField>
-        <Label fx:id="accountNameError" focusTraversable="false" visible="false">
-            <graphic>
-                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true"
-                           styleClass="errorIcon"/>
-            </graphic>
-            <tooltip>
-                <Tooltip fx:id="accountNameErrorTooltip" styleClass="errorMessage"/>
-            </tooltip>
-            <HBox.margin>
-                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-            </HBox.margin>
         </Label>
-    </HBox>
-    <HBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-        <ComboBox fx:id="currency" prefWidth="200.0"/>
-        <Label fx:id="currencyError" focusTraversable="false" visible="false">
-            <graphic>
-                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true"
-                           styleClass="errorIcon"/>
-            </graphic>
-            <tooltip>
-                <Tooltip fx:id="currencyErrorTooltip" styleClass="errorMessage"/>
-            </tooltip>
-            <HBox.margin>
+        <Label text="%AccountEdit.Currency" GridPane.rowIndex="1">
+            <GridPane.margin>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-            </HBox.margin>
+            </GridPane.margin>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
         </Label>
-    </HBox>
-    <HBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-        <TextArea fx:id="description" prefHeight="80.0" prefWidth="200.0" wrapText="true">
+        <Label text="%AccountEdit.Description" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <GridPane.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </GridPane.margin>
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </padding>
-        </TextArea>
-        <Label fx:id="descriptionError" focusTraversable="false" visible="false">
-            <graphic>
-                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true"
-                           styleClass="errorIcon"/>
-            </graphic>
-            <tooltip>
-                <Tooltip fx:id="descriptionErrorTooltip" styleClass="errorMessage"/>
-            </tooltip>
-            <HBox.margin>
-                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-            </HBox.margin>
         </Label>
-    </HBox>
-    <HBox GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="4"
-          GridPane.vgrow="NEVER">
-        <Button mnemonicParsing="true" onAction="#save" styleClass="save_button" text="%AccountEdit.Save"
-                HBox.hgrow="NEVER" fx:id="save" defaultButton="true">
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-            <HBox.margin>
+        <HBox spacing="4.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0"
+              GridPane.vgrow="NEVER">
+            <GridPane.margin>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-            </HBox.margin>
-        </Button>
-        <Button mnemonicParsing="false" onAction="#cancel" styleClass="cancel_button" text="%AccountEdit.Cancel"
-                HBox.hgrow="NEVER" cancelButton="true">
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-            <HBox.margin>
-                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
-            </HBox.margin>
-        </Button>
-        <GridPane.margin>
-            <Insets bottom="10.0" left="0" right="0" top="10.0"/>
-        </GridPane.margin>
-    </HBox>
-</GridPane>
+            </GridPane.margin>
+            <TextField fx:id="accountName" prefWidth="200.0" promptText="%AccountEdit.Account_name">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+            </TextField>
+            <Label fx:id="accountNameError" focusTraversable="false" visible="false">
+                <graphic>
+                    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true"
+                               styleClass="errorIcon"/>
+                </graphic>
+                <tooltip>
+                    <Tooltip fx:id="accountNameErrorTooltip" styleClass="errorMessage"/>
+                </tooltip>
+                <HBox.margin>
+                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                </HBox.margin>
+            </Label>
+        </HBox>
+        <HBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <ComboBox fx:id="currency" prefWidth="200.0"/>
+            <Label fx:id="currencyError" focusTraversable="false" visible="false">
+                <graphic>
+                    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true"
+                               styleClass="errorIcon"/>
+                </graphic>
+                <tooltip>
+                    <Tooltip fx:id="currencyErrorTooltip" styleClass="errorMessage"/>
+                </tooltip>
+                <HBox.margin>
+                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                </HBox.margin>
+            </Label>
+        </HBox>
+        <HBox spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextArea fx:id="description" prefHeight="80.0" prefWidth="200.0" wrapText="true">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+            </TextArea>
+            <Label fx:id="descriptionError" focusTraversable="false" visible="false">
+                <graphic>
+                    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true"
+                               styleClass="errorIcon"/>
+                </graphic>
+                <tooltip>
+                    <Tooltip fx:id="descriptionErrorTooltip" styleClass="errorMessage"/>
+                </tooltip>
+                <HBox.margin>
+                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                </HBox.margin>
+            </Label>
+        </HBox>
+        <HBox GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3"
+              GridPane.vgrow="NEVER">
+            <Button mnemonicParsing="true" onAction="#save" styleClass="save_button" text="%AccountEdit.Save"
+                    HBox.hgrow="NEVER" fx:id="save" defaultButton="true">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+                <HBox.margin>
+                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#cancel" styleClass="cancel_button" text="%AccountEdit.Cancel"
+                    HBox.hgrow="NEVER" cancelButton="true">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+                <HBox.margin>
+                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                </HBox.margin>
+            </Button>
+            <GridPane.margin>
+                <Insets bottom="10.0" left="0" right="0" top="10.0"/>
+            </GridPane.margin>
+        </HBox>
+    </GridPane>
+</FloatingForm>

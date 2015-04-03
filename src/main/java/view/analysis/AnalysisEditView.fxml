@@ -6,22 +6,18 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" prefWidth="400.0"
-      fx:controller="view.analysis.AnalysisEditView" styleClass="overlay" stylesheets="/style/style.css">
+<?import control.FloatingForm?>
+<FloatingForm xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" prefWidth="400.0"
+      fx:controller="view.analysis.AnalysisEditView">
     <fx:define>
         <Font fx:id="LABEL_FONT" name="System" size="14"/>
     </fx:define>
     <fx:define>
         <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" fx:id="FORM_PADDING"/>
     </fx:define>
-    <Label focusTraversable="false" styleClass="form_header" text="Edit Analysis" VBox.vgrow="NEVER">
-        <font>
-            <Font name="System Bold" size="18.0"/>
-        </font>
-        <padding>
-            <Insets bottom="18.0" top="18.0" left="18.0" right="18.0"/>
-        </padding>
-    </Label>
+    <header>
+        Edit Analysis
+    </header>
     <GridPane VBox.vgrow="ALWAYS">
         <padding>
             <Insets bottom="18.0" top="0.0" left="18.0" right="18.0"/>
@@ -99,15 +95,21 @@
                 <Insets bottom="10.0" left="0" right="0" top="10.0"/>
             </GridPane.margin>
             <Button mnemonicParsing="false" onAction="#save" styleClass="save_button" text="Save">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
                 <HBox.margin>
                     <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                 </HBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#cancel" styleClass="cancel_button" text="Cancel">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
                 <HBox.margin>
                     <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                 </HBox.margin>
             </Button>
         </HBox>
     </GridPane>
-</VBox>
+</FloatingForm>
